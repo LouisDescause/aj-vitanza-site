@@ -219,97 +219,36 @@
         });
     }
 
-    // ---- YouTube Videos (via RSS → cors proxy) ----
-    var videoGrid = document.getElementById('videoGrid');
-    var CHANNEL_ID = 'UCZKk2Y6Uu-bgNiOxLEwxOQw';
-    var VIDEO_COUNT = 3;
+    // ---- YouTube Videos (hardcoded from channel) ----
+    // Video IDs from AJ's YouTube channel - update these when new videos drop
+    var videos = [
+        { id: 'oIcYkOr_KFs', title: 'STRANGER I KNOW' },
+        { id: '-xajyFnR0mI', title: 'Stranger I Know (Official Lyric Video)' },
+        { id: 'fvKDFVza9EM', title: "DON'T WANNA KNOW (Official Music Video)" }
+    ];
 
-    function renderVideos(videoIds, titles) {
-        if (!videoGrid) return;
-        videoGrid.innerHTML = '';
+    var videoGrid = document.getElementById('videoGrid');
+    if (videoGrid) {
         videoGrid.classList.add('videos-grid-loaded');
-        videoIds.forEach(function (id, i) {
-            var title = (titles && titles[i]) ? titles[i] : 'Watch on YouTube';
-            var card = document.createElement('a');
+        videos.forEach(function (vid, i) {
+            var card = document.createElement('div');
             card.className = 'video-card';
-            card.href = 'https://www.youtube.com/watch?v=' + id;
-            card.target = '_blank';
-            card.rel = 'noopener';
             if (i > 0) card.style.setProperty('--delay', (i * 0.15) + 's');
             card.innerHTML =
-                '<div class="video-thumb">' +
-                    '<img src="https://img.youtube.com/vi/' + id + '/maxresdefault.jpg" ' +
-                        'alt="' + title + '" loading="lazy" ' +
-                        'onerror="this.src=\'https://img.youtube.com/vi/' + id + '/hqdefault.jpg\'">' +
-                    '<div class="video-play">' +
-                        '<svg viewBox="0 0 68 48" width="68" height="48"><path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55C3.97 2.33 2.27 4.81 1.48 7.74.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="rgba(255,255,255,0.9)"/><path d="M45 24L27 14v20" fill="#0a0a0a"/></svg>' +
-                    '</div>' +
+                '<div class="video-frame">' +
+                    '<iframe src="https://www.youtube-nocookie.com/embed/' + vid.id + '?rel=0&modestbranding=1" ' +
+                    'title="' + vid.title + '" ' +
+                    'width="100%" height="100%" frameBorder="0" ' +
+                    'allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" ' +
+                    'referrerpolicy="strict-origin-when-cross-origin" ' +
+                    'allowfullscreen loading="lazy"></iframe>' +
                 '</div>' +
                 '<div class="video-info">' +
-                    '<span class="video-title">' + title + '</span>' +
+                    '<span class="video-title">' + vid.title + '</span>' +
                 '</div>';
             videoGrid.appendChild(card);
         });
     }
-
-    function loadYouTubeVideos() {
-        var rssUrl = 'https://www.youtube.com/feeds/videos.xml?channel_id=' + CHANNEL_ID;
-        // Use a public CORS proxy to fetch the RSS feed
-        var proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(rssUrl);
-
-        fetch(proxyUrl)
-            .then(function (res) { return res.text(); })
-            .then(function (xmlText) {
-                var parser = new DOMParser();
-                var xml = parser.parseFromString(xmlText, 'text/xml');
-                var entries = xml.querySelectorAll('entry');
-                var ids = [];
-                var titles = [];
-                for (var i = 0; i < Math.min(VIDEO_COUNT, entries.length); i++) {
-                    var videoId = entries[i].querySelector('videoId');
-                    var titleEl = entries[i].querySelector('title');
-                    if (videoId) {
-                        ids.push(videoId.textContent);
-                        titles.push(titleEl ? titleEl.textContent : 'Watch on YouTube');
-                    } else {
-                        var link = entries[i].querySelector('link');
-                        if (link) {
-                            var href = link.getAttribute('href');
-                            var match = href && href.match(/v=([^&]+)/);
-                            if (match) {
-                                ids.push(match[1]);
-                                titles.push(titleEl ? titleEl.textContent : 'Watch on YouTube');
-                            }
-                        }
-                    }
-                }
-                if (ids.length > 0) {
-                    renderVideos(ids, titles);
-                } else {
-                    fallbackVideos();
-                }
-            })
-            .catch(function () {
-                fallbackVideos();
-            });
-    }
-
-    function fallbackVideos() {
-        // Fallback: link to YouTube channel
-        if (!videoGrid) return;
-        videoGrid.classList.add('video-featured');
-        videoGrid.innerHTML =
-            '<a class="video-card video-card-channel" href="https://www.youtube.com/channel/' + CHANNEL_ID + '" target="_blank" rel="noopener">' +
-                '<div class="video-thumb">' +
-                    '<div class="video-play video-play-lg">' +
-                        '<svg viewBox="0 0 68 48" width="68" height="48"><path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55C3.97 2.33 2.27 4.81 1.48 7.74.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="rgba(255,255,255,0.9)"/><path d="M45 24L27 14v20" fill="#0a0a0a"/></svg>' +
-                    '</div>' +
-                '</div>' +
-                '<div class="video-info"><span class="video-title">Watch AJ Vitanza on YouTube</span></div>' +
-            '</a>';
-    }
-
-    loadYouTubeVideos();
 
     // ---- Initialize on load ----
     updateScrollProgress();
