@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AJ Vitanza — Alt-Pop Artist</title>
+    <meta name="description" content="AJ Vitanza is a 21-year-old pop artist blending slick commercial appeal with undeniable charisma. 16M+ Spotify streams.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;600;700&family=Unbounded:wght@700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Scroll Progress Bar -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <!-- Navigation -->
+    <nav class="nav" id="nav">
+        <a href="#hero" class="nav-logo">
+            <span class="logo-3d-wrapper">
+                <span class="logo-3d-text">AJV</span>
+            </span>
+        </a>
+        <div class="nav-links">
+            <a href="#bio">Bio</a>
+            <a href="#music">Music</a>
+            <a href="#press">Press</a>
+            <a href="#videos">Videos</a>
+            <a href="#signup">Sign Up</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div class="hero-bg">
+            <img src="images/hero.jpg" alt="AJ Vitanza" class="hero-bg-img" id="heroBgImg">
+            <div class="hero-overlay"></div>
+        </div>
+        <div class="hero-content">
+            <h1 class="hero-title" id="heroTitle" data-text="AJ VITANZA">
+                <span class="hero-word">AJ</span>
+                <span class="hero-word">VITANZA</span>
+            </h1>
+            <p class="hero-tagline reveal-up">Los Angeles — Alt-Pop</p>
+            <div class="hero-cta reveal-up">
+                <a href="https://open.spotify.com/artist/4cYjXmjtYTr8km9NLjC7xe" target="_blank" rel="noopener" class="btn btn-primary">Listen Now</a>
+                <a href="#bio" class="btn btn-outline">Learn More</a>
+            </div>
+        </div>
+        <div class="scroll-indicator" id="scrollIndicator">
+            <span>Scroll</span>
+            <svg width="16" height="24" viewBox="0 0 16 24" fill="none">
+                <rect x="1" y="1" width="14" height="22" rx="7" stroke="white" stroke-width="1.5"/>
+                <circle class="scroll-dot" cx="8" cy="8" r="2" fill="white"/>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Marquee Strip -->
+    <div class="marquee-strip" aria-hidden="true">
+        <div class="marquee-track">
+            <span>ALT-POP</span><span>BUFFALO NY</span><span>HANDMADE RECORDS</span><span>LOS ANGELES</span><span>NEW MUSIC</span><span>ALT-POP</span><span>BUFFALO NY</span><span>HANDMADE RECORDS</span><span>LOS ANGELES</span><span>NEW MUSIC</span><span>ALT-POP</span><span>BUFFALO NY</span><span>HANDMADE RECORDS</span><span>LOS ANGELES</span><span>NEW MUSIC</span>
+        </div>
+    </div>
+
+    <!-- Bio Section -->
+    <section class="bio" id="bio">
+        <div class="bio-inner">
+            <div class="bio-image reveal-left">
+                <img src="images/bio.jpg" alt="AJ Vitanza at the keyboard">
+            </div>
+            <div class="bio-text reveal-right">
+                <h2 class="section-label reveal-up">Bio</h2>
+                <p class="bio-paragraph reveal-up">
+                    AJ Vitanza is a 21-year-old pop artist blending slick commercial appeal with undeniable charisma. Born and raised in Buffalo, NY, AJ carries his hometown pride into everything he does — from his relentless work ethic to his vivid storytelling.
+                </p>
+                <p class="bio-paragraph reveal-up">
+                    Signed to Handmade Records in May 2025, AJ has quickly developed into one of the most exciting new voices in alt-pop, growing his Spotify listeners from 30K to over 525K in just a few months.
+                </p>
+                <p class="bio-paragraph reveal-up">
+                    His sound is <strong>dynamic, adrenaline-charged, and packed with main-character energy</strong> — confident yet approachable, built on clean hooks, smooth toplines, and melodies that feel big and emotional.
+                </p>
+                <div class="bio-badge reveal-up">
+                    <span class="badge-dot"></span>
+                    Signed to Handmade Records
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Music Section -->
+    <section class="music" id="music">
+        <div class="music-inner">
+            <h2 class="section-label reveal-up">Music</h2>
+            <div class="spotify-embed reveal-scale">
+                <iframe
+                    style="border-radius:12px"
+                    src="https://open.spotify.com/embed/artist/4cYjXmjtYTr8km9NLjC7xe?utm_source=generator&theme=0"
+                    width="100%"
+                    height="352"
+                    frameBorder="0"
+                    allowfullscreen=""
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                    loading="lazy">
+                </iframe>
+            </div>
+            <div class="streaming-links reveal-up">
+                <a href="https://open.spotify.com/artist/4cYjXmjtYTr8km9NLjC7xe" target="_blank" rel="noopener" class="stream-link" aria-label="Spotify">
+                    <svg viewBox="0 0 24 24" width="28" height="28"><path fill="currentColor" d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+                    <span>Spotify</span>
+                </a>
+                <a href="https://music.apple.com/us/artist/aj-vitanza/1553623922" target="_blank" rel="noopener" class="stream-link" aria-label="Apple Music">
+                    <svg viewBox="0 0 24 24" width="28" height="28"><path fill="currentColor" d="M23.994 6.124a9.23 9.23 0 00-.24-2.19c-.317-1.31-1.062-2.31-2.18-3.043A5.022 5.022 0 0019.63.28C18.73.097 17.82.02 16.903.01 16.533 0 16.162 0 15.793 0H8.207c-.37 0-.74 0-1.11.01-.918.01-1.828.087-2.728.27a5.022 5.022 0 00-1.944.611C1.307 1.624.562 2.624.245 3.934a9.23 9.23 0 00-.24 2.19C0 6.504 0 6.884 0 7.264v9.472c0 .38 0 .76.005 1.14.018.776.096 1.548.24 2.19.317 1.31 1.062 2.31 2.18 3.043a5.022 5.022 0 001.944.611c.9.183 1.81.26 2.728.27.37.01.74.01 1.11.01h7.586c.37 0 .74 0 1.11-.01.918-.01 1.827-.087 2.727-.27a5.022 5.022 0 001.944-.611c1.118-.733 1.863-1.733 2.18-3.043.144-.642.222-1.414.24-2.19.005-.38.005-.76.005-1.14V7.264c0-.38 0-.76-.005-1.14zm-6.423 3.225v5.97a3.998 3.998 0 01-.323 1.588 2.84 2.84 0 01-1.039 1.147 2.072 2.072 0 01-1.182.358c-.822.014-1.538-.456-1.842-1.15-.304-.694-.175-1.512.355-2.082.363-.39.833-.628 1.345-.712.37-.06.747-.1 1.122-.142.253-.03.493-.1.6-.372.07-.18.1-.37.1-.565V9.567c0-.32-.058-.413-.378-.35l-5.1 1.13c-.052.012-.103.03-.147.048-.16.08-.226.217-.226.4v7.652c0 .235-.01.47-.055.7a2.7 2.7 0 01-.537 1.19 2.598 2.598 0 01-1.2.818c-.342.124-.694.176-1.054.18-.695.006-1.316-.283-1.72-.84-.405-.558-.486-1.206-.272-1.862.214-.656.68-1.074 1.3-1.314.37-.143.758-.217 1.147-.282.258-.043.518-.083.773-.133.258-.05.4-.212.44-.476.02-.12.03-.24.03-.36V7.27c0-.342.035-.48.367-.568l6.628-1.598c.142-.035.286-.058.432-.068.24-.013.37.092.387.336.01.14.005.28.005.42l-.001 3.557z"/></svg>
+                    <span>Apple Music</span>
+                </a>
+                <a href="https://music.amazon.com/artists/B0B5VVXNCW" target="_blank" rel="noopener" class="stream-link" aria-label="Amazon Music">
+                    <svg viewBox="0 0 24 24" width="28" height="28"><path fill="currentColor" d="M13.958 10.09c0 1.232.029 2.256-.591 3.351-.502.891-1.301 1.438-2.186 1.438-1.214 0-1.922-.924-1.922-2.292 0-2.692 2.415-3.182 4.7-3.182v.685zm3.186 7.705a.66.66 0 01-.753.077c-1.06-.878-1.248-1.284-1.83-2.119-1.748 1.784-2.985 2.317-5.249 2.317-2.68 0-4.764-1.653-4.764-4.96 0-2.583 1.401-4.34 3.392-5.2 1.725-.753 4.137-.889 5.983-1.096v-.409c0-.753.058-1.642-.385-2.292-.385-.578-1.124-.817-1.776-.817-1.21 0-2.285.62-2.55 1.905-.054.285-.262.565-.549.58l-3.072-.333c-.259-.057-.546-.266-.472-.66C5.926 1.927 8.849.58 11.473.58c1.34 0 3.089.357 4.143 1.372 1.34 1.251 1.213 2.92 1.213 4.738v4.288c0 1.29.536 1.855 1.04 2.551.177.246.215.544-.009.726-.56.467-1.555 1.334-2.102 1.822l-.614-.282zM21.125 16.77C18.726 18.97 15.035 20.18 11.813 20.18c-4.556 0-8.662-1.684-11.768-4.486-.245-.22-.025-.523.267-.352 3.352 1.949 7.498 3.125 11.78 3.125 2.888 0 6.063-.6 8.984-1.838.44-.186.81.29.049.14z"/></svg>
+                    <span>Amazon</span>
+                </a>
+                <a href="https://www.deezer.com/en/artist/175633437" target="_blank" rel="noopener" class="stream-link" aria-label="Deezer">
+                    <svg viewBox="0 0 24 24" width="28" height="28"><path fill="currentColor" d="M18.81 4.16v3.03H24V4.16h-5.19zM6.27 8.38v3.027h5.189V8.38H6.27zm12.54 0v3.027H24V8.38h-5.19zM6.27 12.594v3.027h5.189v-3.027H6.27zm6.271 0v3.027h5.19v-3.027h-5.19zm6.27 0v3.027H24v-3.027h-5.19zM0 16.81v3.029h5.19v-3.03H0zm6.27 0v3.029h5.189v-3.03H6.27zm6.271 0v3.029h5.19v-3.03h-5.19zm6.27 0v3.029H24v-3.03h-5.19z"/></svg>
+                    <span>Deezer</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Press Section -->
+    <section class="press" id="press">
+        <div class="press-inner">
+            <h2 class="section-label reveal-up">Press</h2>
+            <blockquote class="press-quote reveal-up">
+                <span class="quote-mark">&ldquo;</span>
+                Emerging from Buffalo, NY, AJ Vitanza is a pop artist whose storytelling and emotionally resonant songwriting are rapidly gaining traction.
+                <span class="quote-mark">&rdquo;</span>
+            </blockquote>
+            <div class="press-logos reveal-up">
+                <span class="press-logo">Hashtag</span>
+                <span class="press-logo">AllMusicMagazineUK</span>
+                <span class="press-logo">Music of Future</span>
+                <span class="press-logo">EQ Music</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Videos Section -->
+    <section class="videos" id="videos">
+        <div class="videos-inner">
+            <h2 class="section-label reveal-up">Videos</h2>
+            <p class="videos-subtitle reveal-up">Latest releases & visuals</p>
+            <div class="videos-grid" id="videoGrid">
+                <!-- Populated by JS using YouTube RSS feed -->
+            </div>
+            <div class="videos-cta reveal-up">
+                <a href="https://www.youtube.com/channel/UCZKk2Y6Uu-bgNiOxLEwxOQw" target="_blank" rel="noopener" class="btn btn-outline">View All on YouTube</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Signup / Laylo Section -->
+    <section class="signup" id="signup">
+        <div class="signup-inner">
+            <h2 class="section-label reveal-up">Stay Connected</h2>
+            <p class="signup-heading reveal-up">Be the first to know about new drops, shows & exclusives</p>
+            <div class="signup-cta reveal-scale">
+                <a href="https://laylo.com/ajvitanza" target="_blank" rel="noopener" class="btn btn-signup">
+                    <span>Sign Up</span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer" id="footer">
+        <div class="footer-inner">
+            <div class="footer-socials">
+                <a href="https://www.instagram.com/ajvitanza/" target="_blank" rel="noopener" aria-label="Instagram">
+                    <svg viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+                </a>
+                <a href="https://www.tiktok.com/@ajvitanza" target="_blank" rel="noopener" aria-label="TikTok">
+                    <svg viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
+                </a>
+                <a href="https://open.spotify.com/artist/4cYjXmjtYTr8km9NLjC7xe" target="_blank" rel="noopener" aria-label="Spotify">
+                    <svg viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+                </a>
+                <a href="https://music.apple.com/us/artist/aj-vitanza/1553623922" target="_blank" rel="noopener" aria-label="Apple Music">
+                    <svg viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M23.994 6.124a9.23 9.23 0 00-.24-2.19c-.317-1.31-1.062-2.31-2.18-3.043A5.022 5.022 0 0019.63.28C18.73.097 17.82.02 16.903.01 16.533 0 16.162 0 15.793 0H8.207c-.37 0-.74 0-1.11.01-.918.01-1.828.087-2.728.27a5.022 5.022 0 00-1.944.611C1.307 1.624.562 2.624.245 3.934a9.23 9.23 0 00-.24 2.19C0 6.504 0 6.884 0 7.264v9.472c0 .38 0 .76.005 1.14.018.776.096 1.548.24 2.19.317 1.31 1.062 2.31 2.18 3.043a5.022 5.022 0 001.944.611c.9.183 1.81.26 2.728.27.37.01.74.01 1.11.01h7.586c.37 0 .74 0 1.11-.01.918-.01 1.827-.087 2.727-.27a5.022 5.022 0 001.944-.611c1.118-.733 1.863-1.733 2.18-3.043.144-.642.222-1.414.24-2.19.005-.38.005-.76.005-1.14V7.264c0-.38 0-.76-.005-1.14zm-6.423 3.225v5.97a3.998 3.998 0 01-.323 1.588 2.84 2.84 0 01-1.039 1.147 2.072 2.072 0 01-1.182.358c-.822.014-1.538-.456-1.842-1.15-.304-.694-.175-1.512.355-2.082.363-.39.833-.628 1.345-.712.37-.06.747-.1 1.122-.142.253-.03.493-.1.6-.372.07-.18.1-.37.1-.565V9.567c0-.32-.058-.413-.378-.35l-5.1 1.13c-.052.012-.103.03-.147.048-.16.08-.226.217-.226.4v7.652c0 .235-.01.47-.055.7a2.7 2.7 0 01-.537 1.19 2.598 2.598 0 01-1.2.818c-.342.124-.694.176-1.054.18-.695.006-1.316-.283-1.72-.84-.405-.558-.486-1.206-.272-1.862.214-.656.68-1.074 1.3-1.314.37-.143.758-.217 1.147-.282.258-.043.518-.083.773-.133.258-.05.4-.212.44-.476.02-.12.03-.24.03-.36V7.27c0-.342.035-.48.367-.568l6.628-1.598c.142-.035.286-.058.432-.068.24-.013.37.092.387.336.01.14.005.28.005.42l-.001 3.557z"/></svg>
+                </a>
+                <a href="https://www.youtube.com/channel/UCZKk2Y6Uu-bgNiOxLEwxOQw" target="_blank" rel="noopener" aria-label="YouTube">
+                    <svg viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                </a>
+                <a href="https://www.bandsintown.com/a/15612255-aj-vitanza" target="_blank" rel="noopener" aria-label="Bandsintown">
+                    <svg viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M2.727 6h2.182v12H2.727V6zm4.364 4.363h2.182V18H7.09v-7.637zm4.363 0h2.182V18h-2.182v-7.637zm4.364-4.363h2.182v12h-2.182V6zM0 0v24h24V0H0zm22.91 22.91H1.09V1.09h21.82v21.82z"/></svg>
+                </a>
+            </div>
+            <div class="footer-info">
+                <p>&copy; 2026 AJ Vitanza</p>
+                <p class="footer-label">Handmade Records</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scan lines + noise overlay -->
+    <div class="scanlines" aria-hidden="true"></div>
+    <svg class="noise-svg" aria-hidden="true">
+        <filter id="noiseFilter">
+            <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/>
+            <feColorMatrix type="saturate" values="0"/>
+        </filter>
+        <rect width="100%" height="100%" filter="url(#noiseFilter)"/>
+    </svg>
+
+    <script src="script.js"></script>
+</body>
+</html>
