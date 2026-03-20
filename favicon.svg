@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <rect width="32" height="32" rx="4" fill="#0a0a0a"/>
+  <text x="16" y="23" font-family="Arial Black, sans-serif" font-weight="900" font-size="16" fill="url(#chrome)" text-anchor="middle">AJV</text>
+  <defs>
+    <linearGradient id="chrome" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#e8e8e8"/>
+      <stop offset="30%" stop-color="#a0a0a0"/>
+      <stop offset="50%" stop-color="#ffffff"/>
+      <stop offset="70%" stop-color="#b0b0b0"/>
+      <stop offset="100%" stop-color="#c0c0c0"/>
+    </linearGradient>
+  </defs>
+</svg>

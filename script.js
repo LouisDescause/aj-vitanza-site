@@ -219,36 +219,7 @@
         });
     }
 
-    // ---- YouTube Videos (hardcoded from channel) ----
-    // Video IDs from AJ's YouTube channel - update these when new videos drop
-    var videos = [
-        { id: 'oIcYkOr_KFs', title: 'STRANGER I KNOW' },
-        { id: '-xajyFnR0mI', title: 'Stranger I Know (Official Lyric Video)' },
-        { id: 'fvKDFVza9EM', title: "DON'T WANNA KNOW (Official Music Video)" }
-    ];
-
-    var videoGrid = document.getElementById('videoGrid');
-    if (videoGrid) {
-        videoGrid.classList.add('videos-grid-loaded');
-        videos.forEach(function (vid, i) {
-            var card = document.createElement('div');
-            card.className = 'video-card';
-            if (i > 0) card.style.setProperty('--delay', (i * 0.15) + 's');
-            card.innerHTML =
-                '<div class="video-frame">' +
-                    '<iframe src="https://www.youtube-nocookie.com/embed/' + vid.id + '?rel=0&modestbranding=1" ' +
-                    'title="' + vid.title + '" ' +
-                    'width="100%" height="100%" frameBorder="0" ' +
-                    'allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" ' +
-                    'referrerpolicy="strict-origin-when-cross-origin" ' +
-                    'allowfullscreen loading="lazy"></iframe>' +
-                '</div>' +
-                '<div class="video-info">' +
-                    '<span class="video-title">' + vid.title + '</span>' +
-                '</div>';
-            videoGrid.appendChild(card);
-        });
-    }
+    // Videos are now hardcoded as thumbnail cards in HTML (no iframe embed issues)
 
     // ---- Initialize on load ----
     updateScrollProgress();
