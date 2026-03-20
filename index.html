@@ -5,18 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="google-site-verification" content="_y-S_OHViF2MWSQkZCljal-LFWjPdTxh1Q6GTJ5qIeY" />
     <title>AJ Vitanza — Official Website</title>
-    <meta name="description" content="The official website of AJ Vitanza. New music, videos, tour dates & more.">
+    <meta name="description" content="The official website of AJ Vitanza. PLASTIC HEART debut EP out now. Stream on all platforms.">
 
     <!-- Social sharing (iMessage, Twitter, Discord, etc.) -->
-    <meta property="og:title" content="AJ Vitanza — Official Website">
-    <meta property="og:description" content="The official website of AJ Vitanza. New music, videos, tour dates & more.">
+    <meta property="og:title" content="AJ Vitanza — PLASTIC HEART Out Now">
+    <meta property="og:description" content="PLASTIC HEART — the debut EP from AJ Vitanza. Stream now on all platforms.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://ajvitanza.com">
-    <meta property="og:image" content="https://ajvitanza.com/images/hero.jpg">
+    <meta property="og:image" content="https://ajvitanza.com/images/cover.jpg">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="AJ Vitanza — Official Website">
-    <meta name="twitter:description" content="The official website of AJ Vitanza. New music, videos, tour dates & more.">
-    <meta name="twitter:image" content="https://ajvitanza.com/images/hero.jpg">
+    <meta name="twitter:title" content="AJ Vitanza — PLASTIC HEART Out Now">
+    <meta name="twitter:description" content="PLASTIC HEART — the debut EP from AJ Vitanza. Stream now on all platforms.">
+    <meta name="twitter:image" content="https://ajvitanza.com/images/cover.jpg">
 
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
 
@@ -59,10 +59,10 @@
             </span>
         </a>
         <div class="nav-links">
-            <a href="#bio">Bio</a>
+            <a href="#ep" class="nav-new">New</a>
             <a href="#music">Music</a>
-            <a href="#press">Press</a>
             <a href="#videos">Videos</a>
+            <a href="#press">Press</a>
             <a href="#signup">Sign Up</a>
         </div>
     </nav>
@@ -81,8 +81,8 @@
             </h1>
             <p class="hero-tagline reveal-up">Los Angeles — Alt-Pop</p>
             <div class="hero-cta reveal-up">
-                <a href="https://open.spotify.com/artist/4cYjXmjtYTr8km9NLjC7xe" target="_blank" rel="noopener" class="btn btn-primary">Listen Now</a>
-                <a href="#bio" class="btn btn-outline">Learn More</a>
+                <a href="#ep" class="btn btn-primary">PLASTIC HEART — Out Now</a>
+                <a href="https://open.spotify.com/artist/4cYjXmjtYTr8km9NLjC7xe" target="_blank" rel="noopener" class="btn btn-outline">Listen Now</a>
             </div>
         </div>
         <div class="scroll-indicator" id="scrollIndicator">
@@ -94,37 +94,62 @@
         </div>
     </section>
 
-    <!-- Marquee Strip -->
-    <div class="marquee-strip" aria-hidden="true">
-        <div class="marquee-track">
-            <span>ALT-POP</span><span>BUFFALO NY</span><span>HANDMADE RECORDS</span><span>LOS ANGELES</span><span>NEW MUSIC</span><span>ALT-POP</span><span>BUFFALO NY</span><span>HANDMADE RECORDS</span><span>LOS ANGELES</span><span>NEW MUSIC</span><span>ALT-POP</span><span>BUFFALO NY</span><span>HANDMADE RECORDS</span><span>LOS ANGELES</span><span>NEW MUSIC</span>
-        </div>
-    </div>
-
-    <!-- Bio Section -->
-    <section class="bio" id="bio">
-        <div class="bio-inner">
-            <div class="bio-image reveal-left">
-                <img src="images/bio.jpg" alt="AJ Vitanza at the keyboard">
+    <!-- PLASTIC HEART EP Section -->
+    <section class="ep" id="ep">
+        <div class="ep-inner">
+            <div class="ep-artwork reveal-left">
+                <div class="cover-art-display">
+                    <img src="images/cover.jpg" alt="PLASTIC HEART Cover Art" class="cover-img" id="coverImg">
+                    <div class="cover-glow"></div>
+                </div>
             </div>
-            <div class="bio-text reveal-right">
-                <h2 class="section-label reveal-up">Bio</h2>
-                <p class="bio-paragraph reveal-up">
-                    AJ Vitanza is a 21-year-old pop artist blending slick commercial appeal with undeniable charisma. Born and raised in Buffalo, NY, AJ carries his hometown pride into everything he does — from his relentless work ethic to his vivid storytelling.
-                </p>
-                <p class="bio-paragraph reveal-up">
-                    Signed to Handmade Records in May 2025, AJ has quickly developed into one of the most exciting new voices in alt-pop, growing his Spotify listeners from 35K to over 615K in just a few months.
-                </p>
-                <p class="bio-paragraph reveal-up">
-                    His sound is <strong>dynamic, adrenaline-charged, and packed with main-character energy</strong> — confident yet approachable, built on clean hooks, smooth toplines, and melodies that feel big and emotional.
-                </p>
-                <div class="bio-badge reveal-up">
-                    <span class="badge-dot"></span>
-                    Signed to Handmade Records
+            <div class="ep-info reveal-right">
+                <div class="ep-badge reveal-up">DEBUT EP</div>
+                <h2 class="ep-title reveal-up">PLASTIC HEART</h2>
+                <p class="ep-subtitle reveal-up">9 Tracks — Out Now Everywhere</p>
+
+                <!-- DSP Buttons -->
+                <div class="dsp-grid reveal-up">
+                    <a href="https://open.spotify.com/artist/4cYjXmjtYTr8km9NLjC7xe?si=WDxfCtDmRsCfFMfnYrTOFg" target="_blank" rel="noopener" class="dsp-btn dsp-spotify">
+                        <svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+                        <span>Spotify</span>
+                    </a>
+                    <a href="https://music.apple.com/us/album/plastic-heart/1879830363" target="_blank" rel="noopener" class="dsp-btn dsp-apple">
+                        <svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M23.994 6.124a9.23 9.23 0 00-.24-2.19c-.317-1.31-1.062-2.31-2.18-3.043A5.022 5.022 0 0019.63.28C18.73.097 17.82.02 16.903.01 16.533 0 16.162 0 15.793 0H8.207c-.37 0-.74 0-1.11.01-.918.01-1.828.087-2.728.27a5.022 5.022 0 00-1.944.611C1.307 1.624.562 2.624.245 3.934a9.23 9.23 0 00-.24 2.19C0 6.504 0 6.884 0 7.264v9.472c0 .38 0 .76.005 1.14.018.776.096 1.548.24 2.19.317 1.31 1.062 2.31 2.18 3.043a5.022 5.022 0 001.944.611c.9.183 1.81.26 2.728.27.37.01.74.01 1.11.01h7.586c.37 0 .74 0 1.11-.01.918-.01 1.827-.087 2.727-.27a5.022 5.022 0 001.944-.611c1.118-.733 1.863-1.733 2.18-3.043.144-.642.222-1.414.24-2.19.005-.38.005-.76.005-1.14V7.264c0-.38 0-.76-.005-1.14z"/></svg>
+                        <span>Apple Music</span>
+                    </a>
+                    <a href="https://music.amazon.com/albums/B0GPY23CCF?marketplaceId=ATVPDKIKX0DER&musicTerritory=US&ref=dm_sh_AYmVlWAOKrGGwfvGM82gIm01r" target="_blank" rel="noopener" class="dsp-btn dsp-amazon">
+                        <svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M13.958 10.09c0 1.232.029 2.256-.591 3.351-.502.891-1.301 1.438-2.186 1.438-1.214 0-1.922-.924-1.922-2.292 0-2.692 2.415-3.182 4.7-3.182v.685zm3.186 7.705a.66.66 0 01-.753.077c-1.06-.878-1.248-1.284-1.83-2.119-1.748 1.784-2.985 2.317-5.249 2.317-2.68 0-4.764-1.653-4.764-4.96 0-2.583 1.401-4.34 3.392-5.2 1.725-.753 4.137-.889 5.983-1.096v-.409c0-.753.058-1.642-.385-2.292-.385-.578-1.124-.817-1.776-.817-1.21 0-2.285.62-2.55 1.905-.054.285-.262.565-.549.58l-3.072-.333c-.259-.057-.546-.266-.472-.66C5.926 1.927 8.849.58 11.473.58c1.34 0 3.089.357 4.143 1.372 1.34 1.251 1.213 2.92 1.213 4.738v4.288c0 1.29.536 1.855 1.04 2.551.177.246.215.544-.009.726-.56.467-1.555 1.334-2.102 1.822l-.614-.282z"/></svg>
+                        <span>Amazon Music</span>
+                    </a>
+                    <a href="https://music.youtube.com/playlist?list=OLAK5uy_l7wH32nT3f4wkysGGtPoXDJKIr2NpdpzU&si=PFdvW47_mzjXRzYL" target="_blank" rel="noopener" class="dsp-btn dsp-ytmusic">
+                        <svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M12 0C5.376 0 0 5.376 0 12s5.376 12 12 12 12-5.376 12-12S18.624 0 12 0zm0 19.104c-3.924 0-7.104-3.18-7.104-7.104S8.076 4.896 12 4.896s7.104 3.18 7.104 7.104-3.18 7.104-7.104 7.104zm0-13.332c-3.432 0-6.228 2.796-6.228 6.228S8.568 18.228 12 18.228 18.228 15.432 18.228 12 15.432 5.772 12 5.772zM9.684 15.54V8.46L15.816 12l-6.132 3.54z"/></svg>
+                        <span>YouTube Music</span>
+                    </a>
+                </div>
+
+                <!-- Tracklist -->
+                <div class="track-list reveal-up">
+                    <div class="track-item"><span class="track-num">01</span><span class="track-name">Deceive Me</span><span class="track-line"></span></div>
+                    <div class="track-item"><span class="track-num">02</span><span class="track-name">Blame Myself</span><span class="track-line"></span></div>
+                    <div class="track-item"><span class="track-num">03</span><span class="track-name">Back In LA</span><span class="track-line"></span></div>
+                    <div class="track-item"><span class="track-num">04</span><span class="track-name">Save Your Tears</span><span class="track-line"></span></div>
+                    <div class="track-item"><span class="track-num">05</span><span class="track-name">Like That</span><span class="track-line"></span></div>
+                    <div class="track-item"><span class="track-num">06</span><span class="track-name">Don't Make It Easy</span><span class="track-line"></span></div>
+                    <div class="track-item"><span class="track-num">07</span><span class="track-name">Stranger I Know</span><span class="track-line"></span></div>
+                    <div class="track-item"><span class="track-num">08</span><span class="track-name">Plastic Heart</span><span class="track-line"></span></div>
+                    <div class="track-item"><span class="track-num">09</span><span class="track-name">CNTRL Z</span><span class="track-line"></span></div>
                 </div>
             </div>
         </div>
     </section>
+
+    <!-- Marquee Strip -->
+    <div class="marquee-strip" aria-hidden="true">
+        <div class="marquee-track">
+            <span>PLASTIC HEART</span><span>OUT NOW</span><span>DEBUT EP</span><span>AJ VITANZA</span><span>HANDMADE RECORDS</span><span>PLASTIC HEART</span><span>OUT NOW</span><span>DEBUT EP</span><span>AJ VITANZA</span><span>HANDMADE RECORDS</span><span>PLASTIC HEART</span><span>OUT NOW</span><span>DEBUT EP</span><span>AJ VITANZA</span><span>HANDMADE RECORDS</span>
+        </div>
+    </div>
 
     <!-- Music Section -->
     <section class="music" id="music">
@@ -148,18 +173,54 @@
                     <span>Spotify</span>
                 </a>
                 <a href="https://music.apple.com/us/artist/aj-vitanza/1553623922" target="_blank" rel="noopener" class="stream-link" aria-label="Apple Music">
-                    <svg viewBox="0 0 24 24" width="28" height="28"><path fill="currentColor" d="M23.994 6.124a9.23 9.23 0 00-.24-2.19c-.317-1.31-1.062-2.31-2.18-3.043A5.022 5.022 0 0019.63.28C18.73.097 17.82.02 16.903.01 16.533 0 16.162 0 15.793 0H8.207c-.37 0-.74 0-1.11.01-.918.01-1.828.087-2.728.27a5.022 5.022 0 00-1.944.611C1.307 1.624.562 2.624.245 3.934a9.23 9.23 0 00-.24 2.19C0 6.504 0 6.884 0 7.264v9.472c0 .38 0 .76.005 1.14.018.776.096 1.548.24 2.19.317 1.31 1.062 2.31 2.18 3.043a5.022 5.022 0 001.944.611c.9.183 1.81.26 2.728.27.37.01.74.01 1.11.01h7.586c.37 0 .74 0 1.11-.01.918-.01 1.827-.087 2.727-.27a5.022 5.022 0 001.944-.611c1.118-.733 1.863-1.733 2.18-3.043.144-.642.222-1.414.24-2.19.005-.38.005-.76.005-1.14V7.264c0-.38 0-.76-.005-1.14zm-6.423 3.225v5.97a3.998 3.998 0 01-.323 1.588 2.84 2.84 0 01-1.039 1.147 2.072 2.072 0 01-1.182.358c-.822.014-1.538-.456-1.842-1.15-.304-.694-.175-1.512.355-2.082.363-.39.833-.628 1.345-.712.37-.06.747-.1 1.122-.142.253-.03.493-.1.6-.372.07-.18.1-.37.1-.565V9.567c0-.32-.058-.413-.378-.35l-5.1 1.13c-.052.012-.103.03-.147.048-.16.08-.226.217-.226.4v7.652c0 .235-.01.47-.055.7a2.7 2.7 0 01-.537 1.19 2.598 2.598 0 01-1.2.818c-.342.124-.694.176-1.054.18-.695.006-1.316-.283-1.72-.84-.405-.558-.486-1.206-.272-1.862.214-.656.68-1.074 1.3-1.314.37-.143.758-.217 1.147-.282.258-.043.518-.083.773-.133.258-.05.4-.212.44-.476.02-.12.03-.24.03-.36V7.27c0-.342.035-.48.367-.568l6.628-1.598c.142-.035.286-.058.432-.068.24-.013.37.092.387.336.01.14.005.28.005.42l-.001 3.557z"/></svg>
+                    <svg viewBox="0 0 24 24" width="28" height="28"><path fill="currentColor" d="M23.994 6.124a9.23 9.23 0 00-.24-2.19c-.317-1.31-1.062-2.31-2.18-3.043A5.022 5.022 0 0019.63.28C18.73.097 17.82.02 16.903.01 16.533 0 16.162 0 15.793 0H8.207c-.37 0-.74 0-1.11.01-.918.01-1.828.087-2.728.27a5.022 5.022 0 00-1.944.611C1.307 1.624.562 2.624.245 3.934a9.23 9.23 0 00-.24 2.19C0 6.504 0 6.884 0 7.264v9.472c0 .38 0 .76.005 1.14.018.776.096 1.548.24 2.19.317 1.31 1.062 2.31 2.18 3.043a5.022 5.022 0 001.944.611c.9.183 1.81.26 2.728.27.37.01.74.01 1.11.01h7.586c.37 0 .74 0 1.11-.01.918-.01 1.827-.087 2.727-.27a5.022 5.022 0 001.944-.611c1.118-.733 1.863-1.733 2.18-3.043.144-.642.222-1.414.24-2.19.005-.38.005-.76.005-1.14V7.264c0-.38 0-.76-.005-1.14z"/></svg>
                     <span>Apple Music</span>
                 </a>
-                <a href="https://music.amazon.com/artists/B0B5VVXNCW" target="_blank" rel="noopener" class="stream-link" aria-label="Amazon Music">
-                    <svg viewBox="0 0 24 24" width="28" height="28"><path fill="currentColor" d="M13.958 10.09c0 1.232.029 2.256-.591 3.351-.502.891-1.301 1.438-2.186 1.438-1.214 0-1.922-.924-1.922-2.292 0-2.692 2.415-3.182 4.7-3.182v.685zm3.186 7.705a.66.66 0 01-.753.077c-1.06-.878-1.248-1.284-1.83-2.119-1.748 1.784-2.985 2.317-5.249 2.317-2.68 0-4.764-1.653-4.764-4.96 0-2.583 1.401-4.34 3.392-5.2 1.725-.753 4.137-.889 5.983-1.096v-.409c0-.753.058-1.642-.385-2.292-.385-.578-1.124-.817-1.776-.817-1.21 0-2.285.62-2.55 1.905-.054.285-.262.565-.549.58l-3.072-.333c-.259-.057-.546-.266-.472-.66C5.926 1.927 8.849.58 11.473.58c1.34 0 3.089.357 4.143 1.372 1.34 1.251 1.213 2.92 1.213 4.738v4.288c0 1.29.536 1.855 1.04 2.551.177.246.215.544-.009.726-.56.467-1.555 1.334-2.102 1.822l-.614-.282zM21.125 16.77C18.726 18.97 15.035 20.18 11.813 20.18c-4.556 0-8.662-1.684-11.768-4.486-.245-.22-.025-.523.267-.352 3.352 1.949 7.498 3.125 11.78 3.125 2.888 0 6.063-.6 8.984-1.838.44-.186.81.29.049.14z"/></svg>
+                <a href="https://music.amazon.com/albums/B0GPY23CCF" target="_blank" rel="noopener" class="stream-link" aria-label="Amazon Music">
+                    <svg viewBox="0 0 24 24" width="28" height="28"><path fill="currentColor" d="M13.958 10.09c0 1.232.029 2.256-.591 3.351-.502.891-1.301 1.438-2.186 1.438-1.214 0-1.922-.924-1.922-2.292 0-2.692 2.415-3.182 4.7-3.182v.685z"/></svg>
                     <span>Amazon</span>
                 </a>
-                <a href="https://www.deezer.com/en/artist/175633437" target="_blank" rel="noopener" class="stream-link" aria-label="Deezer">
-                    <svg viewBox="0 0 24 24" width="28" height="28"><path fill="currentColor" d="M18.81 4.16v3.03H24V4.16h-5.19zM6.27 8.38v3.027h5.189V8.38H6.27zm12.54 0v3.027H24V8.38h-5.19zM6.27 12.594v3.027h5.189v-3.027H6.27zm6.271 0v3.027h5.19v-3.027h-5.19zm6.27 0v3.027H24v-3.027h-5.19zM0 16.81v3.029h5.19v-3.03H0zm6.27 0v3.029h5.189v-3.03H6.27zm6.271 0v3.029h5.19v-3.03h-5.19zm6.27 0v3.029H24v-3.03h-5.19z"/></svg>
-                    <span>Deezer</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Videos Section -->
+    <section class="videos" id="videos">
+        <div class="videos-header">
+            <h2 class="section-label reveal-up">Videos</h2>
+            <p class="videos-subtitle reveal-up">Latest releases & visuals</p>
+        </div>
+        <div class="videos-scroll" id="videoGrid">
+            <div class="video-card reveal-scale">
+                <a href="https://www.youtube.com/watch?v=oIcYkOr_KFs" target="_blank" rel="noopener" class="video-link">
+                    <img src="https://img.youtube.com/vi/oIcYkOr_KFs/hqdefault.jpg" alt="STRANGER I KNOW" class="video-thumb" loading="lazy">
+                    <div class="video-play">
+                        <svg viewBox="0 0 68 48" width="68" height="48"><path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55C3.97 2.33 2.27 4.81 1.48 7.74.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="rgba(255,255,255,0.9)"/><path d="M45 24L27 14v20" fill="#0a0a0a"/></svg>
+                    </div>
+                    <span class="video-title">STRANGER I KNOW</span>
                 </a>
             </div>
+            <div class="video-card reveal-scale" style="--delay: 0.15s">
+                <a href="https://www.youtube.com/watch?v=-xajyFnR0mI" target="_blank" rel="noopener" class="video-link">
+                    <img src="https://img.youtube.com/vi/-xajyFnR0mI/hqdefault.jpg" alt="Stranger I Know (Lyric Video)" class="video-thumb" loading="lazy">
+                    <div class="video-play">
+                        <svg viewBox="0 0 68 48" width="68" height="48"><path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55C3.97 2.33 2.27 4.81 1.48 7.74.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="rgba(255,255,255,0.9)"/><path d="M45 24L27 14v20" fill="#0a0a0a"/></svg>
+                    </div>
+                    <span class="video-title">Stranger I Know (Lyric Video)</span>
+                </a>
+            </div>
+            <div class="video-card reveal-scale" style="--delay: 0.3s">
+                <a href="https://www.youtube.com/watch?v=fvKDFVza9EM" target="_blank" rel="noopener" class="video-link">
+                    <img src="https://img.youtube.com/vi/fvKDFVza9EM/hqdefault.jpg" alt="DON'T WANNA KNOW" class="video-thumb" loading="lazy">
+                    <div class="video-play">
+                        <svg viewBox="0 0 68 48" width="68" height="48"><path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55C3.97 2.33 2.27 4.81 1.48 7.74.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="rgba(255,255,255,0.9)"/><path d="M45 24L27 14v20" fill="#0a0a0a"/></svg>
+                    </div>
+                    <span class="video-title">DON'T WANNA KNOW (Music Video)</span>
+                </a>
+            </div>
+        </div>
+        <div class="videos-cta reveal-up">
+            <a href="https://www.youtube.com/channel/UCZKk2Y6Uu-bgNiOxLEwxOQw" target="_blank" rel="noopener" class="btn btn-outline">View All on YouTube</a>
         </div>
     </section>
 
@@ -178,46 +239,6 @@
                 <span class="press-logo">Music of Future</span>
                 <span class="press-logo">EQ Music</span>
             </div>
-        </div>
-    </section>
-
-    <!-- Videos Section -->
-    <section class="videos" id="videos">
-        <div class="videos-header">
-            <h2 class="section-label reveal-up">Videos</h2>
-            <p class="videos-subtitle reveal-up">Latest releases & visuals</p>
-        </div>
-        <div class="videos-scroll" id="videoGrid">
-                <div class="video-card reveal-scale">
-                    <a href="https://www.youtube.com/watch?v=oIcYkOr_KFs" target="_blank" rel="noopener" class="video-link" data-id="oIcYkOr_KFs">
-                        <img src="https://img.youtube.com/vi/oIcYkOr_KFs/hqdefault.jpg" alt="STRANGER I KNOW" class="video-thumb" loading="lazy">
-                        <div class="video-play">
-                            <svg viewBox="0 0 68 48" width="68" height="48"><path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55C3.97 2.33 2.27 4.81 1.48 7.74.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="rgba(255,255,255,0.9)"/><path d="M45 24L27 14v20" fill="#0a0a0a"/></svg>
-                        </div>
-                        <span class="video-title">STRANGER I KNOW</span>
-                    </a>
-                </div>
-                <div class="video-card reveal-scale" style="--delay: 0.15s">
-                    <a href="https://www.youtube.com/watch?v=-xajyFnR0mI" target="_blank" rel="noopener" class="video-link" data-id="-xajyFnR0mI">
-                        <img src="https://img.youtube.com/vi/-xajyFnR0mI/hqdefault.jpg" alt="Stranger I Know (Lyric Video)" class="video-thumb" loading="lazy">
-                        <div class="video-play">
-                            <svg viewBox="0 0 68 48" width="68" height="48"><path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55C3.97 2.33 2.27 4.81 1.48 7.74.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="rgba(255,255,255,0.9)"/><path d="M45 24L27 14v20" fill="#0a0a0a"/></svg>
-                        </div>
-                        <span class="video-title">Stranger I Know (Lyric Video)</span>
-                    </a>
-                </div>
-                <div class="video-card reveal-scale" style="--delay: 0.3s">
-                    <a href="https://www.youtube.com/watch?v=fvKDFVza9EM" target="_blank" rel="noopener" class="video-link" data-id="fvKDFVza9EM">
-                        <img src="https://img.youtube.com/vi/fvKDFVza9EM/hqdefault.jpg" alt="DON'T WANNA KNOW (Official Music Video)" class="video-thumb" loading="lazy">
-                        <div class="video-play">
-                            <svg viewBox="0 0 68 48" width="68" height="48"><path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55C3.97 2.33 2.27 4.81 1.48 7.74.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="rgba(255,255,255,0.9)"/><path d="M45 24L27 14v20" fill="#0a0a0a"/></svg>
-                        </div>
-                        <span class="video-title">DON'T WANNA KNOW (Music Video)</span>
-                    </a>
-                </div>
-        </div>
-        <div class="videos-cta reveal-up">
-            <a href="https://www.youtube.com/channel/UCZKk2Y6Uu-bgNiOxLEwxOQw" target="_blank" rel="noopener" class="btn btn-outline">View All on YouTube</a>
         </div>
     </section>
 
@@ -248,9 +269,6 @@
                 <a href="https://open.spotify.com/artist/4cYjXmjtYTr8km9NLjC7xe" target="_blank" rel="noopener" aria-label="Spotify">
                     <svg viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
                 </a>
-                <a href="https://music.apple.com/us/artist/aj-vitanza/1553623922" target="_blank" rel="noopener" aria-label="Apple Music">
-                    <svg viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M23.994 6.124a9.23 9.23 0 00-.24-2.19c-.317-1.31-1.062-2.31-2.18-3.043A5.022 5.022 0 0019.63.28C18.73.097 17.82.02 16.903.01 16.533 0 16.162 0 15.793 0H8.207c-.37 0-.74 0-1.11.01-.918.01-1.828.087-2.728.27a5.022 5.022 0 00-1.944.611C1.307 1.624.562 2.624.245 3.934a9.23 9.23 0 00-.24 2.19C0 6.504 0 6.884 0 7.264v9.472c0 .38 0 .76.005 1.14.018.776.096 1.548.24 2.19.317 1.31 1.062 2.31 2.18 3.043a5.022 5.022 0 001.944.611c.9.183 1.81.26 2.728.27.37.01.74.01 1.11.01h7.586c.37 0 .74 0 1.11-.01.918-.01 1.827-.087 2.727-.27a5.022 5.022 0 001.944-.611c1.118-.733 1.863-1.733 2.18-3.043.144-.642.222-1.414.24-2.19.005-.38.005-.76.005-1.14V7.264c0-.38 0-.76-.005-1.14zm-6.423 3.225v5.97a3.998 3.998 0 01-.323 1.588 2.84 2.84 0 01-1.039 1.147 2.072 2.072 0 01-1.182.358c-.822.014-1.538-.456-1.842-1.15-.304-.694-.175-1.512.355-2.082.363-.39.833-.628 1.345-.712.37-.06.747-.1 1.122-.142.253-.03.493-.1.6-.372.07-.18.1-.37.1-.565V9.567c0-.32-.058-.413-.378-.35l-5.1 1.13c-.052.012-.103.03-.147.048-.16.08-.226.217-.226.4v7.652c0 .235-.01.47-.055.7a2.7 2.7 0 01-.537 1.19 2.598 2.598 0 01-1.2.818c-.342.124-.694.176-1.054.18-.695.006-1.316-.283-1.72-.84-.405-.558-.486-1.206-.272-1.862.214-.656.68-1.074 1.3-1.314.37-.143.758-.217 1.147-.282.258-.043.518-.083.773-.133.258-.05.4-.212.44-.476.02-.12.03-.24.03-.36V7.27c0-.342.035-.48.367-.568l6.628-1.598c.142-.035.286-.058.432-.068.24-.013.37.092.387.336.01.14.005.28.005.42l-.001 3.557z"/></svg>
-                </a>
                 <a href="https://www.youtube.com/channel/UCZKk2Y6Uu-bgNiOxLEwxOQw" target="_blank" rel="noopener" aria-label="YouTube">
                     <svg viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
                 </a>
@@ -265,8 +283,7 @@
         </div>
     </footer>
 
-    <!-- Scan lines + noise overlay -->
-    <div class="scanlines" aria-hidden="true"></div>
+    <!-- Noise overlay -->
     <svg class="noise-svg" aria-hidden="true">
         <filter id="noiseFilter">
             <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/>
@@ -282,9 +299,9 @@
         "@type": "MusicGroup",
         "name": "AJ Vitanza",
         "url": "https://ajvitanza.com",
-        "image": "https://ajvitanza.com/images/hero.jpg",
+        "image": "https://ajvitanza.com/images/cover.jpg",
         "genre": ["Alt-Pop", "Pop"],
-        "description": "AJ Vitanza is a pop artist from Buffalo, NY signed to Handmade Records.",
+        "description": "AJ Vitanza is a pop artist from Buffalo, NY signed to Handmade Records. Debut EP PLASTIC HEART out now.",
         "sameAs": [
             "https://open.spotify.com/artist/4cYjXmjtYTr8km9NLjC7xe",
             "https://music.apple.com/us/artist/aj-vitanza/1553623922",
@@ -293,10 +310,11 @@
             "https://www.youtube.com/channel/UCZKk2Y6Uu-bgNiOxLEwxOQw",
             "https://www.bandsintown.com/a/15612255-aj-vitanza"
         ],
-        "member": {
-            "@type": "Person",
-            "name": "AJ Vitanza",
-            "birthPlace": "Buffalo, NY"
+        "album": {
+            "@type": "MusicAlbum",
+            "name": "PLASTIC HEART",
+            "albumReleaseType": "https://schema.org/EPRelease",
+            "numTracks": 9
         }
     }
     </script>

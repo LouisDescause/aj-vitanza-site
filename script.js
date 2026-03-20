@@ -21,7 +21,6 @@
         }, 2000);
     });
 
-    // Prevent scroll during load
     document.body.style.overflow = 'hidden';
 
     // ============================================
@@ -42,7 +41,6 @@
             cursorDot.style.top = mouseY + 'px';
         });
 
-        // Smooth ring follow
         function animateRing() {
             ringX += (mouseX - ringX) * 0.15;
             ringY += (mouseY - ringY) * 0.15;
@@ -52,8 +50,7 @@
         }
         animateRing();
 
-        // Hover state on interactive elements
-        var hoverTargets = document.querySelectorAll('a, button, .btn, .video-card, .stream-link, .nav-links a');
+        var hoverTargets = document.querySelectorAll('a, button, .btn, .dsp-btn, .video-card, .stream-link, .track-item, .nav-links a');
         hoverTargets.forEach(function (el) {
             el.addEventListener('mouseenter', function () {
                 cursorDot.classList.add('hovering');
@@ -65,22 +62,17 @@
             });
         });
 
-        // Click state
-        document.addEventListener('mousedown', function () {
-            cursorRing.classList.add('clicking');
-        });
-        document.addEventListener('mouseup', function () {
-            cursorRing.classList.remove('clicking');
-        });
+        document.addEventListener('mousedown', function () { cursorRing.classList.add('clicking'); });
+        document.addEventListener('mouseup', function () { cursorRing.classList.remove('clicking'); });
 
-        // Magnetic effect on buttons
-        var magneticEls = document.querySelectorAll('.btn, .btn-signup, .nav-logo');
+        // Magnetic effect
+        var magneticEls = document.querySelectorAll('.btn, .btn-signup, .dsp-btn, .nav-logo');
         magneticEls.forEach(function (el) {
             el.addEventListener('mousemove', function (e) {
                 var rect = el.getBoundingClientRect();
                 var x = e.clientX - rect.left - rect.width / 2;
                 var y = e.clientY - rect.top - rect.height / 2;
-                el.style.transform = 'translate(' + (x * 0.2) + 'px, ' + (y * 0.2) + 'px)';
+                el.style.transform = 'translate(' + (x * 0.15) + 'px, ' + (y * 0.15) + 'px)';
             });
             el.addEventListener('mouseleave', function () {
                 el.style.transform = '';
@@ -106,7 +98,6 @@
         resizeCanvas();
         window.addEventListener('resize', resizeCanvas);
 
-        // Track mouse in hero
         var heroSection = document.getElementById('hero');
         if (heroSection) {
             heroSection.addEventListener('mousemove', function (e) {
@@ -115,7 +106,6 @@
             });
         }
 
-        // Create particles
         for (var i = 0; i < particleCount; i++) {
             particles.push({
                 x: Math.random() * canvas.width,
@@ -129,45 +119,33 @@
 
         function drawParticles() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-
             particles.forEach(function (p) {
-                // Mouse repulsion
                 var dx = p.x - heroMouseX;
                 var dy = p.y - heroMouseY;
                 var dist = Math.sqrt(dx * dx + dy * dy);
-
                 if (dist < 150) {
                     var force = (150 - dist) / 150;
                     p.vx += (dx / dist) * force * 0.5;
                     p.vy += (dy / dist) * force * 0.5;
                 }
-
-                // Dampen velocity
                 p.vx *= 0.98;
                 p.vy *= 0.98;
-
                 p.x += p.vx;
                 p.y += p.vy;
-
-                // Wrap around
                 if (p.x < 0) p.x = canvas.width;
                 if (p.x > canvas.width) p.x = 0;
                 if (p.y < 0) p.y = canvas.height;
                 if (p.y > canvas.height) p.y = 0;
-
                 ctx.beginPath();
                 ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
                 ctx.fillStyle = 'rgba(255, 255, 255, ' + p.opacity + ')';
                 ctx.fill();
             });
-
-            // Draw connection lines
             for (var i = 0; i < particles.length; i++) {
                 for (var j = i + 1; j < particles.length; j++) {
                     var dx = particles[i].x - particles[j].x;
                     var dy = particles[i].y - particles[j].y;
                     var dist = Math.sqrt(dx * dx + dy * dy);
-
                     if (dist < 120) {
                         ctx.beginPath();
                         ctx.moveTo(particles[i].x, particles[i].y);
@@ -178,7 +156,6 @@
                     }
                 }
             }
-
             requestAnimationFrame(drawParticles);
         }
         drawParticles();
@@ -193,7 +170,7 @@
         var scrollTop = window.scrollY;
         var docHeight = document.documentElement.scrollHeight - window.innerHeight;
         var progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-        scrollProgress.style.width = progress + '%';
+        if (scrollProgress) scrollProgress.style.width = progress + '%';
     }
 
     // ============================================
@@ -202,15 +179,17 @@
     var nav = document.getElementById('nav');
 
     function updateNav() {
-        if (window.scrollY > 80) {
-            nav.classList.add('scrolled');
-        } else {
-            nav.classList.remove('scrolled');
+        if (nav) {
+            if (window.scrollY > 80) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
         }
     }
 
     // ============================================
-    // Hero Parallax (multi-layer)
+    // Hero Parallax
     // ============================================
     var heroBgImg = document.getElementById('heroBgImg');
     var heroTitle = document.getElementById('heroTitle');
@@ -221,15 +200,11 @@
     function updateParallax() {
         var scrollTop = window.scrollY;
         var heroHeight = window.innerHeight;
-
         if (scrollTop <= heroHeight) {
             if (heroBgImg) {
-                var offset = scrollTop * 0.3;
-                heroBgImg.style.transform = 'scale(1.1) translate3d(0, ' + offset + 'px, 0)';
+                heroBgImg.style.transform = 'scale(1.1) translate3d(0, ' + (scrollTop * 0.3) + 'px, 0)';
             }
-
             var fadeProgress = Math.max(0, 1 - scrollTop / (heroHeight * 0.5));
-
             if (heroContent) heroContent.style.opacity = fadeProgress;
             if (heroTitle) heroTitle.style.transform = 'translate3d(0, ' + (scrollTop * 0.1) + 'px, 0)';
             if (heroTagline) heroTagline.style.transform = 'translate3d(0, ' + (scrollTop * 0.15) + 'px, 0)';
@@ -238,7 +213,7 @@
     }
 
     // ============================================
-    // Fade scroll indicator on scroll
+    // Fade scroll indicator
     // ============================================
     var scrollIndicator = document.getElementById('scrollIndicator');
 
@@ -248,7 +223,7 @@
     }
 
     // ============================================
-    // Unified scroll handler (throttled via rAF)
+    // Unified scroll handler
     // ============================================
     var ticking = false;
 
@@ -268,7 +243,7 @@
     window.addEventListener('scroll', onScroll, { passive: true });
 
     // ============================================
-    // Scroll Reveal (Intersection Observer)
+    // Scroll Reveal
     // ============================================
     var revealElements = document.querySelectorAll('.reveal-up, .reveal-left, .reveal-right, .reveal-scale');
 
@@ -278,24 +253,16 @@
                 if (entry.isIntersecting) {
                     entry.target.classList.add('revealed');
                     revealObserver.unobserve(entry.target);
-
                     if (entry.target.classList.contains('section-label')) {
                         entry.target.classList.add('glitch-flash');
                     }
                 }
             });
-        }, {
-            threshold: 0.15,
-            rootMargin: '0px 0px -40px 0px'
-        });
+        }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
 
-        revealElements.forEach(function (el) {
-            revealObserver.observe(el);
-        });
+        revealElements.forEach(function (el) { revealObserver.observe(el); });
     } else {
-        revealElements.forEach(function (el) {
-            el.classList.add('revealed');
-        });
+        revealElements.forEach(function (el) { el.classList.add('revealed'); });
     }
 
     // ============================================
@@ -307,7 +274,6 @@
         var quoteHTML = pressQuote.innerHTML;
         var tempDiv = document.createElement('div');
         tempDiv.innerHTML = quoteHTML;
-
         var newHTML = '';
         function processNode(node) {
             if (node.nodeType === 3) {
@@ -323,7 +289,6 @@
                 newHTML += node.outerHTML;
             }
         }
-
         tempDiv.childNodes.forEach(processNode);
         pressQuote.innerHTML = newHTML;
 
@@ -333,26 +298,21 @@
                     if (entry.isIntersecting) {
                         var words = pressQuote.querySelectorAll('.word');
                         words.forEach(function (word, index) {
-                            setTimeout(function () {
-                                word.classList.add('revealed');
-                            }, index * 60);
+                            setTimeout(function () { word.classList.add('revealed'); }, index * 60);
                         });
                         quoteObserver.unobserve(entry.target);
                     }
                 });
             }, { threshold: 0.3 });
-
             quoteObserver.observe(pressQuote);
         }
     }
 
     // ============================================
-    // Delayed Glitch Activation on Hero Title
+    // Delayed Glitch Activation
     // ============================================
     if (heroTitle) {
-        setTimeout(function () {
-            heroTitle.classList.add('glitch-active');
-        }, 2200);
+        setTimeout(function () { heroTitle.classList.add('glitch-active'); }, 2200);
     }
 
     // ============================================
@@ -365,12 +325,9 @@
             var target = document.querySelector(targetId);
             if (target) {
                 e.preventDefault();
-                var navHeight = nav.offsetHeight;
+                var navHeight = nav ? nav.offsetHeight : 0;
                 var targetPosition = target.getBoundingClientRect().top + window.scrollY - navHeight;
-                window.scrollTo({
-                    top: targetPosition,
-                    behavior: 'smooth'
-                });
+                window.scrollTo({ top: targetPosition, behavior: 'smooth' });
             }
         });
     });
@@ -384,19 +341,36 @@
         var glowEl = document.createElement('div');
         glowEl.style.cssText = 'position:absolute;inset:0;z-index:1;pointer-events:none;transition:opacity 0.3s;opacity:0;';
         hero.appendChild(glowEl);
-
-        hero.addEventListener('mouseenter', function () {
-            glowEl.style.opacity = '1';
-        });
-        hero.addEventListener('mouseleave', function () {
-            glowEl.style.opacity = '0';
-        });
+        hero.addEventListener('mouseenter', function () { glowEl.style.opacity = '1'; });
+        hero.addEventListener('mouseleave', function () { glowEl.style.opacity = '0'; });
         hero.addEventListener('mousemove', function (e) {
             var rect = hero.getBoundingClientRect();
             var x = e.clientX - rect.left;
             var y = e.clientY - rect.top;
             glowEl.style.background = 'radial-gradient(circle 300px at ' + x + 'px ' + y + 'px, rgba(139,26,26,0.12), transparent 70%)';
         });
+    }
+
+    // ============================================
+    // 3D Tilt on Cover Art
+    // ============================================
+    if (!isMobile) {
+        var coverImg = document.getElementById('coverImg');
+        var coverDisplay = document.querySelector('.cover-art-display');
+
+        if (coverDisplay && coverImg) {
+            coverDisplay.addEventListener('mousemove', function (e) {
+                var rect = coverDisplay.getBoundingClientRect();
+                var x = (e.clientX - rect.left) / rect.width;
+                var y = (e.clientY - rect.top) / rect.height;
+                var rotateX = (y - 0.5) * -12;
+                var rotateY = (x - 0.5) * 12;
+                coverImg.style.transform = 'perspective(1000px) rotateX(' + rotateX + 'deg) rotateY(' + rotateY + 'deg) scale(1.02)';
+            });
+            coverDisplay.addEventListener('mouseleave', function () {
+                coverImg.style.transform = '';
+            });
+        }
     }
 
     // ============================================
@@ -413,15 +387,8 @@
             startX = e.pageX - videoScroll.offsetLeft;
             scrollLeft = videoScroll.scrollLeft;
         });
-
-        videoScroll.addEventListener('mouseleave', function () {
-            isDown = false;
-        });
-
-        videoScroll.addEventListener('mouseup', function () {
-            isDown = false;
-        });
-
+        videoScroll.addEventListener('mouseleave', function () { isDown = false; });
+        videoScroll.addEventListener('mouseup', function () { isDown = false; });
         videoScroll.addEventListener('mousemove', function (e) {
             if (!isDown) return;
             e.preventDefault();
@@ -445,7 +412,6 @@
                 var rotateY = (x - 0.5) * 10;
                 card.style.transform = 'perspective(800px) rotateX(' + rotateX + 'deg) rotateY(' + rotateY + 'deg) translateY(-6px)';
             });
-
             card.addEventListener('mouseleave', function () {
                 card.style.transform = '';
             });
@@ -456,7 +422,7 @@
     // Section Parallax on Scroll
     // ============================================
     if (!isMobile) {
-        var sections = document.querySelectorAll('.bio, .music, .press, .videos, .signup');
+        var sections = document.querySelectorAll('.ep, .music, .videos, .press, .signup');
 
         var sectionObserver = new IntersectionObserver(function (entries) {
             entries.forEach(function (entry) {
@@ -476,7 +442,7 @@
     }
 
     // ============================================
-    // Initialize on load
+    // Initialize
     // ============================================
     updateScrollProgress();
     updateNav();
