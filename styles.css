@@ -48,18 +48,7 @@ body {
    Scan Lines Overlay
    ============================================ */
 .scanlines {
-    position: fixed;
-    inset: 0;
-    z-index: 9998;
-    pointer-events: none;
-    background: repeating-linear-gradient(
-        0deg,
-        transparent,
-        transparent 2px,
-        rgba(0, 0, 0, 0.03) 2px,
-        rgba(0, 0, 0, 0.03) 4px
-    );
-    opacity: 0.6;
+    display: none;
 }
 
 /* ============================================
