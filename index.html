@@ -36,6 +36,18 @@
 </head>
 <body>
 
+    <!-- Loading Screen -->
+    <div class="loader" id="loader">
+        <div class="loader-inner">
+            <span class="loader-text">AJV</span>
+            <div class="loader-bar"><div class="loader-fill"></div></div>
+        </div>
+    </div>
+
+    <!-- Custom Cursor (desktop only) -->
+    <div class="cursor-dot" id="cursorDot"></div>
+    <div class="cursor-ring" id="cursorRing"></div>
+
     <!-- Scroll Progress Bar -->
     <div class="scroll-progress" id="scrollProgress"></div>
 
@@ -57,14 +69,15 @@
 
     <!-- Hero Section -->
     <section class="hero" id="hero">
+        <canvas class="hero-particles" id="heroParticles"></canvas>
         <div class="hero-bg">
             <img src="images/hero.jpg" alt="AJ Vitanza" class="hero-bg-img" id="heroBgImg">
             <div class="hero-overlay"></div>
         </div>
         <div class="hero-content">
             <h1 class="hero-title" id="heroTitle" data-text="AJ VITANZA">
-                <span class="hero-word">AJ</span>
-                <span class="hero-word">VITANZA</span>
+                <span class="hero-word"><span class="char">A</span><span class="char">J</span></span>
+                <span class="hero-word"><span class="char">V</span><span class="char">I</span><span class="char">T</span><span class="char">A</span><span class="char">N</span><span class="char">Z</span><span class="char">A</span></span>
             </h1>
             <p class="hero-tagline reveal-up">Los Angeles — Alt-Pop</p>
             <div class="hero-cta reveal-up">
@@ -170,10 +183,11 @@
 
     <!-- Videos Section -->
     <section class="videos" id="videos">
-        <div class="videos-inner">
+        <div class="videos-header">
             <h2 class="section-label reveal-up">Videos</h2>
             <p class="videos-subtitle reveal-up">Latest releases & visuals</p>
-            <div class="videos-grid" id="videoGrid">
+        </div>
+        <div class="videos-scroll" id="videoGrid">
                 <div class="video-card reveal-scale">
                     <a href="https://www.youtube.com/watch?v=oIcYkOr_KFs" target="_blank" rel="noopener" class="video-link" data-id="oIcYkOr_KFs">
                         <img src="https://img.youtube.com/vi/oIcYkOr_KFs/hqdefault.jpg" alt="STRANGER I KNOW" class="video-thumb" loading="lazy">
@@ -201,10 +215,9 @@
                         <span class="video-title">DON'T WANNA KNOW (Music Video)</span>
                     </a>
                 </div>
-            </div>
-            <div class="videos-cta reveal-up">
-                <a href="https://www.youtube.com/channel/UCZKk2Y6Uu-bgNiOxLEwxOQw" target="_blank" rel="noopener" class="btn btn-outline">View All on YouTube</a>
-            </div>
+        </div>
+        <div class="videos-cta reveal-up">
+            <a href="https://www.youtube.com/channel/UCZKk2Y6Uu-bgNiOxLEwxOQw" target="_blank" rel="noopener" class="btn btn-outline">View All on YouTube</a>
         </div>
     </section>
 
