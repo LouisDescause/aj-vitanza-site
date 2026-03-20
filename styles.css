@@ -1353,11 +1353,12 @@ body {
     }
 
     .hero-title {
-        font-size: clamp(3rem, 15vw, 5rem);
+        font-size: clamp(2.5rem, 13vw, 5rem);
     }
 
     .hero-word {
         display: block;
+        white-space: nowrap;
     }
 
     .hero-word:nth-child(1) {
@@ -1366,7 +1367,19 @@ body {
 
     .hero-title.glitch-active::before,
     .hero-title.glitch-active::after {
-        font-size: clamp(3rem, 15vw, 5rem);
+        font-size: clamp(2.5rem, 13vw, 5rem);
+    }
+
+    .char {
+        transform: translateY(100%);
+        animation-name: charRevealMobile;
+    }
+
+    @keyframes charRevealMobile {
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
 
 .bio {
@@ -1429,6 +1442,15 @@ body {
 }
 
 @media (max-width: 480px) {
+    .hero-title {
+        font-size: clamp(2rem, 12vw, 4rem);
+    }
+
+    .hero-title.glitch-active::before,
+    .hero-title.glitch-active::after {
+        font-size: clamp(2rem, 12vw, 4rem);
+    }
+
     .hero-cta {
         flex-direction: column;
         align-items: center;
@@ -1440,4 +1462,11 @@ body {
         justify-content: center;
     }
 
+    .nav-links {
+        gap: 0.75rem;
+    }
+
+    .nav-links a {
+        font-size: 0.65rem;
+    }
 }
