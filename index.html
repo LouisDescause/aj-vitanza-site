@@ -31,7 +31,11 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;600;700&family=Unbounded:wght@700;900&display=swap" rel="stylesheet">
+    <!-- Typography pack — matched to the AJ VITANZA logo lockup:
+         - Geist (variable modern geometric sans) — display + headings, matches logo
+         - Geist Mono — utility labels, tracklist numbers
+         - Inter Tight (variable) — body + UI text -->
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..900&family=Geist+Mono:wght@400;500&family=Inter+Tight:wght@300..700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -39,7 +43,7 @@
     <!-- Loading Screen -->
     <div class="loader" id="loader">
         <div class="loader-inner">
-            <span class="loader-text">AJV</span>
+            <img src="images/swoosh-mark.png" alt="AJ Vitanza" class="loader-logo">
             <div class="loader-bar"><div class="loader-fill"></div></div>
         </div>
     </div>
@@ -54,9 +58,7 @@
     <!-- Navigation -->
     <nav class="nav" id="nav">
         <a href="#hero" class="nav-logo">
-            <span class="logo-3d-wrapper">
-                <span class="logo-3d-text">AJV</span>
-            </span>
+            <img src="images/swoosh-mark.png" alt="AJ Vitanza" class="nav-logo-img">
         </a>
         <div class="nav-links">
             <a href="#ep" class="nav-new">New</a>
@@ -69,33 +71,51 @@
 
     <!-- Hero Section -->
     <section class="hero" id="hero">
-        <canvas class="hero-particles" id="heroParticles"></canvas>
-        <div class="hero-bg">
-            <img src="images/hero.jpg" alt="AJ Vitanza" class="hero-bg-img" id="heroBgImg">
-            <div class="hero-overlay"></div>
+        <div class="hero-gradient" id="heroGradient">
+            <div class="hero-gradient-blob blob-1"></div>
+            <div class="hero-gradient-blob blob-2"></div>
+            <div class="hero-gradient-blob blob-3"></div>
+            <div class="hero-gradient-blob blob-4"></div>
+            <div class="hero-gradient-blob blob-5"></div>
+            <div class="hero-gradient-blob blob-6"></div>
+            <div class="hero-aurora"></div>
+            <div class="hero-shimmer"></div>
         </div>
+        <div class="hero-portrait" id="heroPortrait">
+            <img src="images/hero.jpg" alt="AJ Vitanza" id="heroBgImg">
+        </div>
+        <canvas class="hero-particles" id="heroParticles"></canvas>
+        <div class="hero-swoosh-giant" id="heroSwooshGiant">
+            <img src="images/swoosh-mark.png" alt="">
+        </div>
+        <div class="hero-grain"></div>
+        <div class="hero-vignette"></div>
+
         <div class="hero-content">
+            <p class="hero-pre reveal-up">Presenting — Debut EP</p>
             <h1 class="hero-title" id="heroTitle" data-text="AJ VITANZA">
                 <span class="hero-word"><span class="char">A</span><span class="char">J</span></span>
                 <span class="hero-word"><span class="char">V</span><span class="char">I</span><span class="char">T</span><span class="char">A</span><span class="char">N</span><span class="char">Z</span><span class="char">A</span></span>
             </h1>
-            <p class="hero-tagline reveal-up">Los Angeles — Alt-Pop</p>
+            <p class="hero-tagline reveal-up">Alt-Pop — PLASTIC HEART — Out Now</p>
             <div class="hero-cta reveal-up">
-                <a href="#ep" class="btn btn-primary">PLASTIC HEART — Out Now</a>
-                <a href="https://open.spotify.com/artist/4cYjXmjtYTr8km9NLjC7xe" target="_blank" rel="noopener" class="btn btn-outline">Listen Now</a>
+                <a href="#ep" class="btn btn-primary">Hear the EP</a>
+                <a href="https://open.spotify.com/artist/4cYjXmjtYTr8km9NLjC7xe" target="_blank" rel="noopener" class="btn btn-outline">Listen on Spotify</a>
             </div>
         </div>
+
         <div class="scroll-indicator" id="scrollIndicator">
             <span>Scroll</span>
             <svg width="16" height="24" viewBox="0 0 16 24" fill="none">
-                <rect x="1" y="1" width="14" height="22" rx="7" stroke="white" stroke-width="1.5"/>
-                <circle class="scroll-dot" cx="8" cy="8" r="2" fill="white"/>
+                <rect x="1" y="1" width="14" height="22" rx="7" stroke="currentColor" stroke-width="1.5"/>
+                <circle class="scroll-dot" cx="8" cy="8" r="2" fill="currentColor"/>
             </svg>
         </div>
     </section>
 
     <!-- PLASTIC HEART EP Section -->
-    <section class="ep" id="ep">
+    <section class="ep beige-section" id="ep">
+        <div class="beige-grain"></div>
         <div class="ep-inner">
             <div class="ep-artwork reveal-left">
                 <div class="cover-art-display">
@@ -104,9 +124,8 @@
                 </div>
             </div>
             <div class="ep-info reveal-right">
-                <div class="ep-badge reveal-up">DEBUT EP</div>
                 <h2 class="ep-title reveal-up">PLASTIC HEART</h2>
-                <p class="ep-subtitle reveal-up">9 Tracks — Out Now Everywhere</p>
+                <p class="ep-subtitle reveal-up">Debut EP — 9 Tracks — Out Now Everywhere</p>
 
                 <!-- DSP Buttons -->
                 <div class="dsp-grid reveal-up">
@@ -144,17 +163,10 @@
         </div>
     </section>
 
-    <!-- Marquee Strip -->
-    <div class="marquee-strip" aria-hidden="true">
-        <div class="marquee-track">
-            <span>PLASTIC HEART</span><span>OUT NOW</span><span>DEBUT EP</span><span>AJ VITANZA</span><span>ALT-POP</span><span>PLASTIC HEART</span><span>OUT NOW</span><span>DEBUT EP</span><span>AJ VITANZA</span><span>ALT-POP</span><span>PLASTIC HEART</span><span>OUT NOW</span><span>DEBUT EP</span><span>AJ VITANZA</span><span>ALT-POP</span>
-        </div>
-    </div>
-
     <!-- Music Section -->
     <section class="music" id="music">
         <div class="music-inner">
-            <h2 class="section-label reveal-up">Music</h2>
+            <h2 class="section-label reveal-up" data-num="02.">Music</h2>
             <div class="spotify-embed reveal-scale">
                 <iframe
                     style="border-radius:12px"
@@ -187,7 +199,7 @@
     <!-- Videos Section -->
     <section class="videos" id="videos">
         <div class="videos-header">
-            <h2 class="section-label reveal-up">Videos</h2>
+            <h2 class="section-label reveal-up" data-num="03.">Videos</h2>
             <p class="videos-subtitle reveal-up">Latest releases & visuals</p>
         </div>
         <div class="videos-scroll" id="videoGrid">
@@ -227,7 +239,7 @@
     <!-- Press Section -->
     <section class="press" id="press">
         <div class="press-inner">
-            <h2 class="section-label reveal-up">Press</h2>
+            <h2 class="section-label reveal-up" data-num="04.">Press</h2>
             <blockquote class="press-quote reveal-up">
                 <span class="quote-mark">&ldquo;</span>
                 Emerging from Buffalo, NY, AJ Vitanza is a pop artist whose storytelling and emotionally resonant songwriting are rapidly gaining traction.
@@ -243,9 +255,10 @@
     </section>
 
     <!-- Signup / Laylo Section -->
-    <section class="signup" id="signup">
+    <section class="signup beige-section" id="signup">
+        <div class="beige-grain"></div>
         <div class="signup-inner">
-            <h2 class="section-label reveal-up">Stay Connected</h2>
+            <h2 class="section-label reveal-up" data-num="05.">Stay Connected</h2>
             <p class="signup-heading reveal-up">Be the first to know about new drops, shows & exclusives</p>
             <div class="signup-cta reveal-scale">
                 <a href="https://music.cobrand.com/drops/019d2722-3dd5-77a9-9230-54fce2b97083/share?token=qcrddxKgPayM84Yz1vCQRJF7enfikJlfradvaGcl86c" target="_blank" rel="noopener" class="btn btn-signup">

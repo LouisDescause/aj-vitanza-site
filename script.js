@@ -42,8 +42,9 @@
         });
 
         function animateRing() {
-            ringX += (mouseX - ringX) * 0.15;
-            ringY += (mouseY - ringY) * 0.15;
+            /* Slower, silkier trail for the big soft glow */
+            ringX += (mouseX - ringX) * 0.09;
+            ringY += (mouseY - ringY) * 0.09;
             cursorRing.style.left = ringX + 'px';
             cursorRing.style.top = ringY + 'px';
             requestAnimationFrame(animateRing);
@@ -81,11 +82,13 @@
     }
 
     // ============================================
-    // Hero Particle Field
+    // Hero Particle Field — DISABLED
+    // Retired in favor of the pure-CSS animated gradient-blob + aurora layer.
+    // Smoother, more painterly, no RAF cost, and doesn't read as "flies".
     // ============================================
     var canvas = document.getElementById('heroParticles');
 
-    if (canvas && !isMobile) {
+    if (false && canvas && !isMobile) {
         var ctx = canvas.getContext('2d');
         var particles = [];
         var particleCount = 80;
@@ -106,6 +109,7 @@
             });
         }
 
+        var hues = ['mist', 'pale', 'steel', 'deep', 'mist', 'pale'];
         for (var i = 0; i < particleCount; i++) {
             particles.push({
                 x: Math.random() * canvas.width,
@@ -113,7 +117,8 @@
                 vx: (Math.random() - 0.5) * 0.4,
                 vy: (Math.random() - 0.5) * 0.4,
                 size: Math.random() * 2 + 0.5,
-                opacity: Math.random() * 0.3 + 0.1
+                opacity: Math.random() * 0.3 + 0.1,
+                hue: hues[Math.floor(Math.random() * hues.length)]
             });
         }
 
@@ -138,7 +143,17 @@
                 if (p.y > canvas.height) p.y = 0;
                 ctx.beginPath();
                 ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-                ctx.fillStyle = 'rgba(255, 255, 255, ' + p.opacity + ')';
+                // Full BLUE palette — drift through cool gradient tones
+                var hue = p.hue || 'mist';
+                if (hue === 'steel') {
+                    ctx.fillStyle = 'rgba(90, 111, 138, ' + p.opacity + ')';
+                } else if (hue === 'pale') {
+                    ctx.fillStyle = 'rgba(184, 196, 212, ' + (p.opacity * 0.9) + ')';
+                } else if (hue === 'deep') {
+                    ctx.fillStyle = 'rgba(74, 92, 118, ' + (p.opacity * 0.85) + ')';
+                } else {
+                    ctx.fillStyle = 'rgba(216, 222, 229, ' + p.opacity + ')';
+                }
                 ctx.fill();
             });
             for (var i = 0; i < particles.length; i++) {
@@ -150,7 +165,7 @@
                         ctx.beginPath();
                         ctx.moveTo(particles[i].x, particles[i].y);
                         ctx.lineTo(particles[j].x, particles[j].y);
-                        ctx.strokeStyle = 'rgba(139, 26, 26, ' + (0.08 * (1 - dist / 120)) + ')';
+                        ctx.strokeStyle = 'rgba(138, 155, 181, ' + (0.12 * (1 - dist / 120)) + ')';
                         ctx.lineWidth = 0.5;
                         ctx.stroke();
                     }
@@ -253,9 +268,6 @@
                 if (entry.isIntersecting) {
                     entry.target.classList.add('revealed');
                     revealObserver.unobserve(entry.target);
-                    if (entry.target.classList.contains('section-label')) {
-                        entry.target.classList.add('glitch-flash');
-                    }
                 }
             });
         }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
@@ -309,14 +321,9 @@
     }
 
     // ============================================
-    // Delayed Glitch Activation
-    // ============================================
-    if (heroTitle) {
-        setTimeout(function () { heroTitle.classList.add('glitch-active'); }, 2200);
-    }
-
-    // ============================================
     // Smooth scroll for nav links
+    // Lands the jump past the nav AND past any in-section fade zone so the
+    // content is centered instead of buried behind the blur gradient.
     // ============================================
     document.querySelectorAll('a[href^="#"]').forEach(function (link) {
         link.addEventListener('click', function (e) {
@@ -326,7 +333,14 @@
             if (target) {
                 e.preventDefault();
                 var navHeight = nav ? nav.offsetHeight : 0;
-                var targetPosition = target.getBoundingClientRect().top + window.scrollY - navHeight;
+                /* Extra offset for beige sections — their top ~30% is a painterly
+                   slate→beige fade; skip past it so the scroll lands on the
+                   content (cover art, title, tracklist). */
+                var extraOffset = 0;
+                if (target.classList.contains('beige-section')) {
+                    extraOffset = Math.min(target.offsetHeight * 0.22, 260);
+                }
+                var targetPosition = target.getBoundingClientRect().top + window.scrollY - navHeight + extraOffset;
                 window.scrollTo({ top: targetPosition, behavior: 'smooth' });
             }
         });
@@ -347,7 +361,7 @@
             var rect = hero.getBoundingClientRect();
             var x = e.clientX - rect.left;
             var y = e.clientY - rect.top;
-            glowEl.style.background = 'radial-gradient(circle 300px at ' + x + 'px ' + y + 'px, rgba(139,26,26,0.12), transparent 70%)';
+            glowEl.style.background = 'radial-gradient(circle 320px at ' + x + 'px ' + y + 'px, rgba(138,155,181,0.20), rgba(184,196,212,0.10) 45%, transparent 75%)';
         });
     }
 
