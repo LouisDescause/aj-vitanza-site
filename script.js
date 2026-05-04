@@ -31,7 +31,9 @@
     var mouseX = 0, mouseY = 0;
     var ringX = 0, ringY = 0;
 
-    if (!isMobile && cursorDot && cursorRing) {
+    var prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (!isMobile && !prefersReducedMotion && cursorDot && cursorRing) {
         document.body.classList.add('cursor-active');
 
         document.addEventListener('mousemove', function (e) {
@@ -39,9 +41,11 @@
             mouseY = e.clientY;
             cursorDot.style.left = mouseX + 'px';
             cursorDot.style.top = mouseY + 'px';
-        });
+        }, { passive: true });
 
+        var ringRunning = true;
         function animateRing() {
+            if (!ringRunning) return;
             /* Slower, silkier trail for the big soft glow */
             ringX += (mouseX - ringX) * 0.09;
             ringY += (mouseY - ringY) * 0.09;
@@ -50,6 +54,16 @@
             requestAnimationFrame(animateRing);
         }
         animateRing();
+        /* Pause the cursor RAF loop when the tab is hidden — saves battery
+           and keeps the main thread quiet while the user is elsewhere. */
+        document.addEventListener('visibilitychange', function () {
+            if (document.hidden) {
+                ringRunning = false;
+            } else if (!ringRunning) {
+                ringRunning = true;
+                animateRing();
+            }
+        });
 
         var hoverTargets = document.querySelectorAll('a, button, .btn, .dsp-btn, .video-card, .stream-link, .track-item, .nav-links a');
         hoverTargets.forEach(function (el) {
@@ -81,100 +95,8 @@
         });
     }
 
-    // ============================================
-    // Hero Particle Field — DISABLED
-    // Retired in favor of the pure-CSS animated gradient-blob + aurora layer.
-    // Smoother, more painterly, no RAF cost, and doesn't read as "flies".
-    // ============================================
-    var canvas = document.getElementById('heroParticles');
-
-    if (false && canvas && !isMobile) {
-        var ctx = canvas.getContext('2d');
-        var particles = [];
-        var particleCount = 80;
-        var heroMouseX = 0, heroMouseY = 0;
-
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-        resizeCanvas();
-        window.addEventListener('resize', resizeCanvas);
-
-        var heroSection = document.getElementById('hero');
-        if (heroSection) {
-            heroSection.addEventListener('mousemove', function (e) {
-                heroMouseX = e.clientX;
-                heroMouseY = e.clientY;
-            });
-        }
-
-        var hues = ['mist', 'pale', 'steel', 'deep', 'mist', 'pale'];
-        for (var i = 0; i < particleCount; i++) {
-            particles.push({
-                x: Math.random() * canvas.width,
-                y: Math.random() * canvas.height,
-                vx: (Math.random() - 0.5) * 0.4,
-                vy: (Math.random() - 0.5) * 0.4,
-                size: Math.random() * 2 + 0.5,
-                opacity: Math.random() * 0.3 + 0.1,
-                hue: hues[Math.floor(Math.random() * hues.length)]
-            });
-        }
-
-        function drawParticles() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles.forEach(function (p) {
-                var dx = p.x - heroMouseX;
-                var dy = p.y - heroMouseY;
-                var dist = Math.sqrt(dx * dx + dy * dy);
-                if (dist < 150) {
-                    var force = (150 - dist) / 150;
-                    p.vx += (dx / dist) * force * 0.5;
-                    p.vy += (dy / dist) * force * 0.5;
-                }
-                p.vx *= 0.98;
-                p.vy *= 0.98;
-                p.x += p.vx;
-                p.y += p.vy;
-                if (p.x < 0) p.x = canvas.width;
-                if (p.x > canvas.width) p.x = 0;
-                if (p.y < 0) p.y = canvas.height;
-                if (p.y > canvas.height) p.y = 0;
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-                // Full BLUE palette — drift through cool gradient tones
-                var hue = p.hue || 'mist';
-                if (hue === 'steel') {
-                    ctx.fillStyle = 'rgba(90, 111, 138, ' + p.opacity + ')';
-                } else if (hue === 'pale') {
-                    ctx.fillStyle = 'rgba(184, 196, 212, ' + (p.opacity * 0.9) + ')';
-                } else if (hue === 'deep') {
-                    ctx.fillStyle = 'rgba(74, 92, 118, ' + (p.opacity * 0.85) + ')';
-                } else {
-                    ctx.fillStyle = 'rgba(216, 222, 229, ' + p.opacity + ')';
-                }
-                ctx.fill();
-            });
-            for (var i = 0; i < particles.length; i++) {
-                for (var j = i + 1; j < particles.length; j++) {
-                    var dx = particles[i].x - particles[j].x;
-                    var dy = particles[i].y - particles[j].y;
-                    var dist = Math.sqrt(dx * dx + dy * dy);
-                    if (dist < 120) {
-                        ctx.beginPath();
-                        ctx.moveTo(particles[i].x, particles[i].y);
-                        ctx.lineTo(particles[j].x, particles[j].y);
-                        ctx.strokeStyle = 'rgba(138, 155, 181, ' + (0.12 * (1 - dist / 120)) + ')';
-                        ctx.lineWidth = 0.5;
-                        ctx.stroke();
-                    }
-                }
-            }
-            requestAnimationFrame(drawParticles);
-        }
-        drawParticles();
-    }
+    // Hero particle canvas was retired — pure-CSS gradient-blob layer replaced it.
+    // (Old code deleted to keep the JS bundle lean.)
 
     // ============================================
     // Scroll Progress Bar

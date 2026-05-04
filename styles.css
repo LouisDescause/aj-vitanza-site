@@ -60,15 +60,19 @@ section.beige-section { scroll-margin-top: -6rem; }
 body {
     font-family: var(--font-body);
     /* Loader-inspired cream → misty blue-grey gradient — same atmosphere as the
-       loading screen, extended across the entire site. */
+       loading screen, extended across the entire site.
+       NOTE: `background-attachment: fixed` removed — it triggers full-page
+       repaints every scroll frame on iOS Safari, killing perf. The body bg
+       paints once and scrolls naturally; the fixed atmosphere comes from
+       body::before which IS position:fixed. */
     background:
         linear-gradient(135deg, #ece5d6 0%, #e3ddd0 50%, #dcd2bf 100%);
-    background-attachment: fixed;
     color: var(--text);
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     position: relative;
+    min-height: 100vh;
 }
 
 /* Painterly haze overlay — soft misty blue blooms on the cream base, mirrors
@@ -2094,4 +2098,61 @@ section.beige-section::after {
     .track-name {
         font-size: 0.95rem;
     }
+}
+
+/* ============================================
+   Mobile / iOS performance pass — keeps the visual creative intact while
+   stripping out the GPU-expensive layers that murder scroll perf on
+   phones. Desktop unchanged.
+   ============================================ */
+@media (max-width: 900px), (hover: none) and (pointer: coarse) {
+    /* Body haze: kill the 35s drift animation on mobile — the radials are
+       still there, just static. Removes a constant repaint cycle. */
+    body::before { animation: none !important; }
+
+    /* Hero blobs: cut blur radius in half (100px → 50px) and stop animating.
+       Visually identical at the resolutions a phone renders at, but the
+       compositor doesn't have to re-rasterize a 100px-blur layer per frame. */
+    .hero-gradient-blob {
+        filter: blur(50px) !important;
+        animation: none !important;
+        will-change: auto !important;
+    }
+
+    /* Hide blob-5 / blob-6 on mobile — top 4 already give plenty of depth. */
+    .blob-5, .blob-6 { display: none !important; }
+
+    /* Hero portrait: stop the 18s float animation on mobile (constant
+       compositing cost). Static ghost-watermark looks the same. */
+    .hero-portrait img { animation: none !important; will-change: auto !important; }
+
+    /* Cursor glow already disabled on coarse pointers — belt-and-suspenders. */
+    .cursor-ring, .cursor-dot { display: none !important; }
+
+    /* Slim down backdrop-filter blurs on mobile — iOS handles them, but
+       smaller radii are noticeably cheaper. */
+    .nav.scrolled,
+    .nav.scrolled::before { backdrop-filter: blur(10px) !important; -webkit-backdrop-filter: blur(10px) !important; }
+    .video-card { backdrop-filter: blur(8px) !important; -webkit-backdrop-filter: blur(8px) !important; }
+
+    /* Reveal classes: drop the will-change hints once revealed — they're
+       transient animations that finish quickly. Keeping will-change forever
+       wastes a layer on every reveal element on the page. */
+    .reveal-up, .reveal-left, .reveal-right, .reveal-scale {
+        will-change: auto !important;
+    }
+}
+
+/* Honor user's reduced-motion preference — kill all decorative animation. */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+        scroll-behavior: auto !important;
+    }
+    .hero-portrait img,
+    .hero-gradient-blob,
+    body::before,
+    .loader-fill { animation: none !important; }
 }

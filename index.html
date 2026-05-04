@@ -22,8 +22,13 @@
     <link rel="icon" type="image/png" href="images/swoosh-mark.png">
     <link rel="apple-touch-icon" href="images/swoosh-mark.png">
 
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R5WDWDH7RJ"></script>
+    <!-- Critical asset preloads — get the loader logo + hero image flying down
+         the wire as early as the parser sees them. -->
+    <link rel="preload" as="image" href="images/swoosh-mark.png" fetchpriority="high">
+    <link rel="preload" as="image" href="images/hero.jpg" fetchpriority="high">
+
+    <!-- Google Analytics — defer so it never blocks the main thread before LCP. -->
+    <script defer src="https://www.googletagmanager.com/gtag/js?id=G-R5WDWDH7RJ"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
@@ -33,11 +38,11 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- Typography pack — matched to the AJ VITANZA logo lockup:
-         - Geist (variable modern geometric sans) — display + headings, matches logo
-         - Geist Mono — utility labels, tracklist numbers
-         - Inter Tight (variable) — body + UI text -->
-    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..900&family=Geist+Mono:wght@400;500&family=Inter+Tight:wght@300..700&display=swap" rel="stylesheet">
+    <!-- Typography pack — matched to the AJ VITANZA logo lockup. Trimmed the
+         variable-axis ranges to the weights we actually render (was 300..900
+         which downloads the full axis ≈ 60KB+; we only use 400/500/600/700).
+         display=swap so text never blocks paint waiting for the font. -->
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -45,7 +50,7 @@
     <!-- Loading Screen -->
     <div class="loader" id="loader">
         <div class="loader-inner">
-            <img src="images/swoosh-mark.png" alt="AJ Vitanza" class="loader-logo">
+            <img src="images/swoosh-mark.png" alt="AJ Vitanza" class="loader-logo" width="400" height="400" decoding="async" fetchpriority="high">
             <div class="loader-bar"><div class="loader-fill"></div></div>
         </div>
     </div>
@@ -60,7 +65,7 @@
     <!-- Navigation -->
     <nav class="nav" id="nav">
         <a href="#hero" class="nav-logo">
-            <img src="images/swoosh-mark.png" alt="AJ Vitanza" class="nav-logo-img">
+            <img src="images/swoosh-mark.png" alt="AJ Vitanza" class="nav-logo-img" width="400" height="400" decoding="async">
         </a>
         <div class="nav-links">
             <a href="#ep" class="nav-new">New</a>
@@ -84,11 +89,11 @@
             <div class="hero-shimmer"></div>
         </div>
         <div class="hero-portrait" id="heroPortrait">
-            <img src="images/hero.jpg" alt="AJ Vitanza" id="heroBgImg">
+            <img src="images/hero.jpg" alt="AJ Vitanza" id="heroBgImg" decoding="async" fetchpriority="high">
         </div>
         <canvas class="hero-particles" id="heroParticles"></canvas>
         <div class="hero-swoosh-giant" id="heroSwooshGiant">
-            <img src="images/swoosh-mark.png" alt="">
+            <img src="images/swoosh-mark.png" alt="" width="400" height="400" decoding="async" loading="lazy">
         </div>
         <div class="hero-grain"></div>
         <div class="hero-vignette"></div>
@@ -121,7 +126,7 @@
         <div class="ep-inner">
             <div class="ep-artwork reveal-left">
                 <div class="cover-art-display">
-                    <img src="images/cover.jpg" alt="PLASTIC HEART Cover Art" class="cover-img" id="coverImg">
+                    <img src="images/cover.jpg" alt="PLASTIC HEART Cover Art" class="cover-img" id="coverImg" loading="lazy" decoding="async">
                     <div class="cover-glow"></div>
                 </div>
             </div>
