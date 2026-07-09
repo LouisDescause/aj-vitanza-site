@@ -4,28 +4,467 @@
     var isMobile = window.matchMedia('(max-width: 768px)').matches || 'ontouchstart' in window;
     var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    // ========== LOADER ==========
-    var loader = document.getElementById('loader');
-    var loaderFill = document.getElementById('loaderFill');
-    var loadProgress = 0;
+    // ========== AUDIO ENGINE ==========
+    var audioCtx = null;
+    var masterGain = null;
+
+    function getAudioContext() {
+        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+        return audioCtx;
+    }
+
+    function getMasterGain() {
+        var ctx = getAudioContext();
+        if (!masterGain) {
+            masterGain = ctx.createGain();
+            masterGain.gain.value = 0.8;
+            masterGain.connect(ctx.destination);
+        }
+        return masterGain;
+    }
+
+    function playTone(freq, duration, gainVal, type, rampDown) {
+        var ctx = getAudioContext();
+        var osc = ctx.createOscillator();
+        var gain = ctx.createGain();
+        osc.type = type || 'sine';
+        osc.frequency.value = freq;
+        gain.gain.setValueAtTime(gainVal || 0.02, ctx.currentTime);
+        if (rampDown !== false) {
+            gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + (duration || 0.1));
+        }
+        osc.connect(gain);
+        gain.connect(getMasterGain());
+        osc.start(ctx.currentTime);
+        osc.stop(ctx.currentTime + (duration || 0.1));
+    }
+
+    function playNoise(duration, gainVal) {
+        var ctx = getAudioContext();
+        var bufferSize = ctx.sampleRate * (duration || 0.1);
+        var buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+        var data = buffer.getChannelData(0);
+        for (var i = 0; i < bufferSize; i++) {
+            data[i] = (Math.random() * 2 - 1) * 0.5;
+        }
+        var source = ctx.createBufferSource();
+        source.buffer = buffer;
+        var gain = ctx.createGain();
+        gain.gain.setValueAtTime(gainVal || 0.01, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
+        var filter = ctx.createBiquadFilter();
+        filter.type = 'bandpass';
+        filter.frequency.value = 2000;
+        filter.Q.value = 0.5;
+        source.connect(filter);
+        filter.connect(gain);
+        gain.connect(getMasterGain());
+        source.start();
+    }
+
+    // Deep cinematic sub-bass drone
+    var droneOscs = [];
+    function startDrone() {
+        var ctx = getAudioContext();
+        var master = getMasterGain();
+        var droneGain = ctx.createGain();
+        droneGain.gain.setValueAtTime(0, ctx.currentTime);
+        droneGain.gain.linearRampToValueAtTime(0.06, ctx.currentTime + 3);
+        droneGain.connect(master);
+
+        [40, 40.2, 60, 80.1].forEach(function (freq) {
+            var osc = ctx.createOscillator();
+            osc.type = 'sine';
+            osc.frequency.value = freq;
+            osc.connect(droneGain);
+            osc.start();
+            droneOscs.push({ osc: osc, gain: droneGain });
+        });
+
+        // dark rumble layer
+        var rumbleGain = ctx.createGain();
+        rumbleGain.gain.setValueAtTime(0, ctx.currentTime);
+        rumbleGain.gain.linearRampToValueAtTime(0.015, ctx.currentTime + 4);
+        rumbleGain.connect(master);
+        var rumble = ctx.createOscillator();
+        rumble.type = 'sawtooth';
+        rumble.frequency.value = 30;
+        var rumbleFilter = ctx.createBiquadFilter();
+        rumbleFilter.type = 'lowpass';
+        rumbleFilter.frequency.value = 80;
+        rumble.connect(rumbleFilter);
+        rumbleFilter.connect(rumbleGain);
+        rumble.start();
+        droneOscs.push({ osc: rumble, gain: rumbleGain });
+    }
+
+    function stopDrone() {
+        var ctx = getAudioContext();
+        droneOscs.forEach(function (d) {
+            d.gain.gain.linearRampToValueAtTime(0.001, ctx.currentTime + 1.5);
+            setTimeout(function () {
+                try { d.osc.stop(); } catch (e) {}
+            }, 2000);
+        });
+        droneOscs = [];
+    }
+
+    function playBootUp() {
+        // cinematic power-on: low sweep + impact
+        var ctx = getAudioContext();
+        var master = getMasterGain();
+        // sweep up
+        var sweep = ctx.createOscillator();
+        sweep.type = 'sawtooth';
+        sweep.frequency.setValueAtTime(30, ctx.currentTime);
+        sweep.frequency.exponentialRampToValueAtTime(200, ctx.currentTime + 1.2);
+        var sweepGain = ctx.createGain();
+        sweepGain.gain.setValueAtTime(0.04, ctx.currentTime);
+        sweepGain.gain.linearRampToValueAtTime(0.08, ctx.currentTime + 0.8);
+        sweepGain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 1.5);
+        var sweepFilter = ctx.createBiquadFilter();
+        sweepFilter.type = 'lowpass';
+        sweepFilter.frequency.setValueAtTime(100, ctx.currentTime);
+        sweepFilter.frequency.exponentialRampToValueAtTime(800, ctx.currentTime + 1.2);
+        sweep.connect(sweepFilter);
+        sweepFilter.connect(sweepGain);
+        sweepGain.connect(master);
+        sweep.start();
+        sweep.stop(ctx.currentTime + 1.5);
+
+        // impact hit at 1.2s
+        setTimeout(function () {
+            playNoise(0.3, 0.06);
+            playTone(55, 0.8, 0.1, 'sine');
+            playTone(110, 0.4, 0.04, 'triangle');
+        }, 1200);
+    }
+
+    function playTypeBlip() {
+        var freq = 1200 + Math.random() * 600;
+        playTone(freq, 0.02, 0.008, 'square');
+    }
+
+    function playProgressTick() {
+        playTone(900 + Math.random() * 200, 0.025, 0.01, 'sine');
+    }
+
+    function playResolveChime() {
+        var ctx = getAudioContext();
+        var master = getMasterGain();
+
+        // Industrial synth hit — detuned saw stack + filtered noise burst
+        var freqs = [55, 55.5, 110, 82.4];
+        freqs.forEach(function (freq) {
+            var osc = ctx.createOscillator();
+            osc.type = 'sawtooth';
+            osc.frequency.value = freq;
+            var gain = ctx.createGain();
+            gain.gain.setValueAtTime(0.06, ctx.currentTime);
+            gain.gain.linearRampToValueAtTime(0.03, ctx.currentTime + 0.15);
+            gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 1.8);
+            var filter = ctx.createBiquadFilter();
+            filter.type = 'lowpass';
+            filter.frequency.setValueAtTime(800, ctx.currentTime);
+            filter.frequency.exponentialRampToValueAtTime(150, ctx.currentTime + 1.5);
+            filter.Q.value = 4;
+            osc.connect(filter);
+            filter.connect(gain);
+            gain.connect(master);
+            osc.start();
+            osc.stop(ctx.currentTime + 2);
+        });
+
+        // metallic noise burst
+        playNoise(0.15, 0.04);
+    }
+
+    function playFinalImpact() {
+        var ctx = getAudioContext();
+        var master = getMasterGain();
+
+        // Heavy sub drop
+        var sub = ctx.createOscillator();
+        sub.type = 'sine';
+        sub.frequency.setValueAtTime(120, ctx.currentTime);
+        sub.frequency.exponentialRampToValueAtTime(35, ctx.currentTime + 1.5);
+        var subGain = ctx.createGain();
+        subGain.gain.setValueAtTime(0.15, ctx.currentTime);
+        subGain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 2);
+        sub.connect(subGain);
+        subGain.connect(master);
+        sub.start();
+        sub.stop(ctx.currentTime + 2);
+
+        // Industrial noise hit
+        playNoise(0.4, 0.07);
+
+        // Distorted saw stab
+        var stab = ctx.createOscillator();
+        stab.type = 'sawtooth';
+        stab.frequency.value = 65;
+        var stabGain = ctx.createGain();
+        stabGain.gain.setValueAtTime(0.08, ctx.currentTime);
+        stabGain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 1.2);
+        var distFilter = ctx.createBiquadFilter();
+        distFilter.type = 'lowpass';
+        distFilter.frequency.value = 400;
+        distFilter.Q.value = 8;
+        stab.connect(distFilter);
+        distFilter.connect(stabGain);
+        stabGain.connect(master);
+        stab.start();
+        stab.stop(ctx.currentTime + 1.5);
+    }
+
+    // ========== GATE ==========
+    var gate = document.getElementById('gate');
+    var gateBtn = document.getElementById('gateBtn');
 
     document.body.style.overflow = 'hidden';
 
-    function animateLoader() {
-        loadProgress += (100 - loadProgress) * 0.08;
-        if (loaderFill) loaderFill.style.width = loadProgress + '%';
-        if (loadProgress < 90) requestAnimationFrame(animateLoader);
-    }
-    animateLoader();
-
-    window.addEventListener('load', function () {
-        if (loaderFill) loaderFill.style.width = '100%';
-        setTimeout(function () {
-            if (loader) loader.classList.add('hidden');
-            document.body.style.overflow = '';
+    if (prefersReducedMotion) {
+        // skip everything
+        if (gate) gate.classList.add('hidden');
+        document.body.style.overflow = '';
+        window.addEventListener('load', function () {
             initSplitText();
-        }, 800);
+            initSiteInteractions();
+        });
+        return;
+    }
+
+    gateBtn.addEventListener('click', function () {
+        getAudioContext();
+        playBootUp();
+        startDrone();
+        gate.classList.add('hidden');
+        startTerminalBoot();
     });
+
+    // ========== TERMINAL BOOT ==========
+    var terminalBoot = document.getElementById('terminalBoot');
+    var terminalContent = document.getElementById('terminalContent');
+    var terminalCursorEl = document.getElementById('terminalCursor');
+
+    var BOOT_LINES = [
+        { text: 'AV.SYSTEM // INIT', speed: 18, pause: 220 },
+        { text: 'CODEC.RESOLVE', speed: 14, pause: 130, progress: true },
+        { text: 'AUDIO.FREQ >> 432Hz', speed: 13, pause: 130, progress: true },
+        { text: 'RENDER.ENGINE ONLINE', speed: 12, pause: 160 },
+        { text: 'SIGNAL.LOCK >> KEEP ME HIGH', speed: 10, pause: 260 },
+        { text: 'OUTPUT.READY', speed: 16, pause: 320 },
+    ];
+
+    var SCRAMBLE_CHARS = '!@#$%^&*01█▓░▒╬╠╣╦╩╗╔║═';
+
+    function startTerminalBoot() {
+        terminalBoot.classList.add('active');
+        terminalCursorEl.style.display = 'block';
+        processBootLine(0);
+    }
+
+    function processBootLine(index) {
+        if (index >= BOOT_LINES.length) {
+            terminalCursorEl.style.display = 'none';
+            startLogoReveal();
+            return;
+        }
+
+        var line = BOOT_LINES[index];
+        var lineEl = document.createElement('div');
+        lineEl.className = 'terminal-line';
+        terminalContent.appendChild(lineEl);
+
+        // Position cursor after this line
+        var charIndex = 0;
+        var text = line.text;
+
+        function typeNext() {
+            if (charIndex < text.length) {
+                lineEl.textContent = text.substring(0, charIndex + 1);
+                playTypeBlip();
+                charIndex++;
+                setTimeout(typeNext, line.speed);
+            } else if (line.progress) {
+                animateProgress(lineEl, text, function () {
+                    scrambleOut(lineEl, index, function () {
+                        processBootLine(index + 1);
+                    });
+                });
+            } else {
+                setTimeout(function () {
+                    scrambleOut(lineEl, index, function () {
+                        processBootLine(index + 1);
+                    });
+                }, line.pause);
+            }
+        }
+
+        typeNext();
+    }
+
+    function animateProgress(lineEl, prefix, callback) {
+        var progress = 0;
+        var barWidth = 20;
+
+        function tick() {
+            progress += Math.random() * 22 + 8;
+            if (progress > 100) progress = 100;
+            var filled = Math.round((progress / 100) * barWidth);
+            var bar = ' [' + '█'.repeat(filled) + '░'.repeat(barWidth - filled) + '] ' + Math.round(progress) + '%';
+            lineEl.textContent = prefix + bar;
+            playProgressTick();
+            if (progress < 100) {
+                setTimeout(tick, 25 + Math.random() * 20);
+            } else {
+                setTimeout(callback, 120);
+            }
+        }
+        tick();
+    }
+
+    function scrambleOut(lineEl, lineIndex, callback) {
+        var original = lineEl.textContent;
+        var frames = 0;
+        var maxFrames = 3;
+
+        function scrambleFrame() {
+            if (frames >= maxFrames) {
+                lineEl.classList.add('dimmed');
+                lineEl.textContent = original.replace(/[^\s]/g, function () {
+                    return SCRAMBLE_CHARS[Math.floor(Math.random() * SCRAMBLE_CHARS.length)];
+                });
+                setTimeout(callback, 30);
+                return;
+            }
+            var scrambled = '';
+            for (var i = 0; i < original.length; i++) {
+                if (original[i] === ' ') {
+                    scrambled += ' ';
+                } else if (Math.random() > 0.4) {
+                    scrambled += SCRAMBLE_CHARS[Math.floor(Math.random() * SCRAMBLE_CHARS.length)];
+                } else {
+                    scrambled += original[i];
+                }
+            }
+            lineEl.textContent = scrambled;
+            frames++;
+            setTimeout(scrambleFrame, 20);
+        }
+        scrambleFrame();
+    }
+
+    // ========== 3D LOGO REVEAL ==========
+    var logoReveal = document.getElementById('logoReveal');
+    var logoParticles = document.getElementById('logoParticles');
+    var logoRevealText = document.getElementById('logoRevealText');
+    var logoRevealSub = document.getElementById('logoRevealSub');
+
+    var logoRevealEnter = document.getElementById('logoRevealEnter');
+
+    function startLogoReveal() {
+        // Activate logo BEHIND terminal first so there's no flash
+        logoReveal.classList.add('active', 'phase-glitch');
+        spawnParticles();
+
+        // Now fade terminal out — logo is already visible behind it
+        terminalBoot.classList.add('fade-out');
+        setTimeout(function () {
+            terminalBoot.classList.remove('active', 'fade-out');
+        }, 600);
+
+        // Phase 1: Glitchy, blurry, fast spin (1.5s)
+        setTimeout(function () {
+            logoReveal.classList.remove('phase-glitch');
+            logoReveal.classList.add('phase-resolving');
+            playResolveChime();
+
+            // Start music during resolve — song plays from the top
+            startMusic();
+
+            // Phase 2: Resolving, slower spin, clearing (2s)
+            setTimeout(function () {
+                logoReveal.classList.remove('phase-resolving');
+                logoReveal.classList.add('phase-clear');
+
+                logoRevealText.classList.add('visible');
+                logoRevealSub.classList.add('visible');
+
+                // Show enter prompt after text appears
+                setTimeout(function () {
+                    logoRevealEnter.classList.add('visible');
+                    logoReveal.classList.add('clickable');
+                    stopDrone();
+
+                    // Click anywhere on logo screen to enter
+                    logoReveal.addEventListener('click', finishIntro, { once: true });
+                }, 800);
+            }, 2000);
+        }, 1500);
+    }
+
+    function spawnParticles() {
+        if (!logoParticles) return;
+        var count = isMobile ? 20 : 40;
+        for (var i = 0; i < count; i++) {
+            setTimeout(function () {
+                var p = document.createElement('div');
+                p.className = 'logo-particle';
+                var cx = 50 + (Math.random() - 0.5) * 20;
+                var cy = 50 + (Math.random() - 0.5) * 20;
+                p.style.left = cx + '%';
+                p.style.top = cy + '%';
+                p.style.setProperty('--px', (Math.random() - 0.5) * 200 + 'px');
+                p.style.setProperty('--py', (Math.random() - 0.5) * 200 + 'px');
+                p.style.animationDelay = (Math.random() * 0.5) + 's';
+                p.style.width = p.style.height = (1 + Math.random() * 2) + 'px';
+                logoParticles.appendChild(p);
+                setTimeout(function () { p.remove(); }, 3500);
+            }, Math.random() * 4000);
+        }
+    }
+
+    // ========== FINISH INTRO ==========
+    function finishIntro() {
+        playFinalImpact();
+
+        // Prepare main site BEFORE fading logo out
+        window.scrollTo(0, 0);
+        document.body.style.overflow = '';
+        initSplitText();
+        initSiteInteractions();
+
+        // Fade logo out — main site is ready underneath, music keeps playing
+        logoReveal.classList.add('fade-out');
+        setTimeout(function () {
+            logoReveal.className = 'logo-reveal';
+        }, 1000);
+    }
+
+    // ========== MUSIC ==========
+    var musicAudio = null;
+
+    function startMusic() {
+        musicAudio = new Audio('audio/keep-me-high.m4a');
+        musicAudio.loop = true;
+        musicAudio.volume = 0;
+        musicAudio.currentTime = 0;
+        musicAudio.preload = 'auto';
+
+        musicAudio.play().then(function () {
+            var vol = 0;
+            var fadeIn = setInterval(function () {
+                vol += 0.015;
+                if (vol >= 0.6) {
+                    vol = 0.6;
+                    clearInterval(fadeIn);
+                }
+                musicAudio.volume = vol;
+            }, 50);
+        }).catch(function () {});
+    }
 
     // ========== TEXT SPLIT ANIMATION ==========
     function initSplitText() {
@@ -63,62 +502,78 @@
         });
     }
 
+    // ========== SITE INTERACTIONS ==========
+    function initSiteInteractions() {
+        initCursor();
+        initMagnetic();
+        initRipple();
+        initScrollReveals();
+        initPressQuote();
+        initTilt();
+        initCarousel();
+        initAnchorScroll();
+        initHeroGlow();
+
+        updateScrollProgress();
+        updateNav();
+    }
+
     // ========== CUSTOM CURSOR ==========
-    var cursor = document.getElementById('cursor');
-    var mouseX = 0, mouseY = 0;
-    var cursorX = 0, cursorY = 0;
-    var glowX = 0, glowY = 0;
+    function initCursor() {
+        var cursor = document.getElementById('cursor');
+        var mouseX = 0, mouseY = 0;
+        var glowX = 0, glowY = 0;
 
-    if (!isMobile && !prefersReducedMotion && cursor) {
-        document.body.classList.add('has-cursor');
-        var dot = cursor.querySelector('.cursor-dot');
-        var glow = cursor.querySelector('.cursor-glow');
+        if (!isMobile && !prefersReducedMotion && cursor) {
+            document.body.classList.add('has-cursor');
+            var dot = cursor.querySelector('.cursor-dot');
+            var glow = cursor.querySelector('.cursor-glow');
 
-        document.addEventListener('mousemove', function (e) {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-        }, { passive: true });
+            document.addEventListener('mousemove', function (e) {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+            }, { passive: true });
 
-        var cursorRunning = true;
-        function animateCursor() {
-            if (!cursorRunning) return;
-            cursorX += (mouseX - cursorX) * 0.15;
-            cursorY += (mouseY - cursorY) * 0.15;
-            glowX += (mouseX - glowX) * 0.08;
-            glowY += (mouseY - glowY) * 0.08;
+            var cursorRunning = true;
+            function animateCursor() {
+                if (!cursorRunning) return;
+                glowX += (mouseX - glowX) * 0.08;
+                glowY += (mouseY - glowY) * 0.08;
 
-            if (dot) {
-                dot.style.left = mouseX + 'px';
-                dot.style.top = mouseY + 'px';
+                if (dot) {
+                    dot.style.left = mouseX + 'px';
+                    dot.style.top = mouseY + 'px';
+                }
+                if (glow) {
+                    glow.style.left = glowX + 'px';
+                    glow.style.top = glowY + 'px';
+                }
+                requestAnimationFrame(animateCursor);
             }
-            if (glow) {
-                glow.style.left = glowX + 'px';
-                glow.style.top = glowY + 'px';
-            }
-            requestAnimationFrame(animateCursor);
+            animateCursor();
+
+            document.addEventListener('visibilitychange', function () {
+                if (document.hidden) {
+                    cursorRunning = false;
+                } else if (!cursorRunning) {
+                    cursorRunning = true;
+                    animateCursor();
+                }
+            });
+
+            document.addEventListener('mousedown', function () { cursor.classList.add('clicking'); });
+            document.addEventListener('mouseup', function () { cursor.classList.remove('clicking'); });
+
+            document.querySelectorAll('a, button, .btn, .dsp, .track, .vid-card, .stream-link, [data-magnetic]').forEach(function (el) {
+                el.addEventListener('mouseenter', function () { cursor.classList.add('hovering'); });
+                el.addEventListener('mouseleave', function () { cursor.classList.remove('hovering'); });
+            });
         }
-        animateCursor();
-
-        document.addEventListener('visibilitychange', function () {
-            if (document.hidden) {
-                cursorRunning = false;
-            } else if (!cursorRunning) {
-                cursorRunning = true;
-                animateCursor();
-            }
-        });
-
-        document.addEventListener('mousedown', function () { cursor.classList.add('clicking'); });
-        document.addEventListener('mouseup', function () { cursor.classList.remove('clicking'); });
-
-        document.querySelectorAll('a, button, .btn, .dsp, .track, .vid-card, .stream-link, [data-magnetic]').forEach(function (el) {
-            el.addEventListener('mouseenter', function () { cursor.classList.add('hovering'); });
-            el.addEventListener('mouseleave', function () { cursor.classList.remove('hovering'); });
-        });
     }
 
     // ========== MAGNETIC HOVER ==========
-    if (!isMobile) {
+    function initMagnetic() {
+        if (isMobile) return;
         document.querySelectorAll('[data-magnetic]').forEach(function (el) {
             el.addEventListener('mousemove', function (e) {
                 var rect = el.getBoundingClientRect();
@@ -135,19 +590,21 @@
     }
 
     // ========== RIPPLE EFFECT ==========
-    document.querySelectorAll('[data-ripple]').forEach(function (el) {
-        el.addEventListener('click', function (e) {
-            var rect = el.getBoundingClientRect();
-            var ripple = document.createElement('span');
-            ripple.className = 'ripple';
-            var size = Math.max(rect.width, rect.height);
-            ripple.style.width = ripple.style.height = size + 'px';
-            ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
-            ripple.style.top = (e.clientY - rect.top - size / 2) + 'px';
-            el.appendChild(ripple);
-            setTimeout(function () { ripple.remove(); }, 700);
+    function initRipple() {
+        document.querySelectorAll('[data-ripple]').forEach(function (el) {
+            el.addEventListener('click', function (e) {
+                var rect = el.getBoundingClientRect();
+                var ripple = document.createElement('span');
+                ripple.className = 'ripple';
+                var size = Math.max(rect.width, rect.height);
+                ripple.style.width = ripple.style.height = size + 'px';
+                ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
+                ripple.style.top = (e.clientY - rect.top - size / 2) + 'px';
+                el.appendChild(ripple);
+                setTimeout(function () { ripple.remove(); }, 700);
+            });
         });
-    });
+    }
 
     // ========== SCROLL PROGRESS ==========
     var scrollProgress = document.getElementById('scrollProgress');
@@ -209,61 +666,28 @@
     window.addEventListener('scroll', onScroll, { passive: true });
 
     // ========== SCROLL REVEALS ==========
-    var revealEls = document.querySelectorAll('[data-reveal]');
-    if ('IntersectionObserver' in window) {
-        var revealObs = new IntersectionObserver(function (entries) {
-            entries.forEach(function (entry) {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('revealed');
-                    revealObs.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.15, rootMargin: '0px 0px -30px 0px' });
-        revealEls.forEach(function (el) { revealObs.observe(el); });
-    } else {
-        revealEls.forEach(function (el) { el.classList.add('revealed'); });
-    }
-
-    // ========== PRESS QUOTE WORD REVEAL ==========
-    var pressQuote = document.getElementById('pressQuote');
-    if (pressQuote) {
-        var quoteHTML = pressQuote.innerHTML;
-        var tempDiv = document.createElement('div');
-        tempDiv.innerHTML = quoteHTML;
-        var newHTML = '';
-        function processNode(node) {
-            if (node.nodeType === 3) {
-                node.textContent.split(/(\s+)/).forEach(function (word) {
-                    if (word.trim().length > 0) {
-                        newHTML += '<span class="word">' + word + '</span>';
-                    } else {
-                        newHTML += word;
-                    }
-                });
-            } else if (node.nodeType === 1) {
-                newHTML += node.outerHTML;
-            }
-        }
-        tempDiv.childNodes.forEach(processNode);
-        pressQuote.innerHTML = newHTML;
-
+    function initScrollReveals() {
+        var revealEls = document.querySelectorAll('[data-reveal]');
         if ('IntersectionObserver' in window) {
-            var quoteObs = new IntersectionObserver(function (entries) {
+            var revealObs = new IntersectionObserver(function (entries) {
                 entries.forEach(function (entry) {
                     if (entry.isIntersecting) {
-                        pressQuote.querySelectorAll('.word').forEach(function (word, i) {
-                            setTimeout(function () { word.classList.add('revealed'); }, i * 60);
-                        });
-                        quoteObs.unobserve(entry.target);
+                        entry.target.classList.add('revealed');
+                        revealObs.unobserve(entry.target);
                     }
                 });
-            }, { threshold: 0.3 });
-            quoteObs.observe(pressQuote);
+            }, { threshold: 0.15, rootMargin: '0px 0px -30px 0px' });
+            revealEls.forEach(function (el) { revealObs.observe(el); });
+        } else {
+            revealEls.forEach(function (el) { el.classList.add('revealed'); });
         }
     }
 
+    function initPressQuote() {}
+
     // ========== 3D TILT ==========
-    if (!isMobile) {
+    function initTilt() {
+        if (isMobile) return;
         document.querySelectorAll('[data-tilt]').forEach(function (el) {
             el.addEventListener('mousemove', function (e) {
                 var rect = el.getBoundingClientRect();
@@ -282,10 +706,11 @@
     }
 
     // ========== VIDEO CAROUSEL DRAG ==========
-    var carousel = document.getElementById('videosCarousel');
-    if (carousel) {
-        var isDown = false, startX, scrollLeft;
+    function initCarousel() {
+        var carousel = document.getElementById('videosCarousel');
+        if (!carousel) return;
 
+        var isDown = false, startX, scrollLeft;
         carousel.addEventListener('mousedown', function (e) {
             isDown = true;
             startX = e.pageX - carousel.offsetLeft;
@@ -302,23 +727,27 @@
     }
 
     // ========== SMOOTH ANCHOR SCROLL ==========
-    document.querySelectorAll('a[href^="#"]').forEach(function (link) {
-        link.addEventListener('click', function (e) {
-            var id = this.getAttribute('href');
-            if (id === '#') return;
-            var target = document.querySelector(id);
-            if (target) {
-                e.preventDefault();
-                var navH = nav ? nav.offsetHeight : 0;
-                var top = target.getBoundingClientRect().top + window.scrollY - navH;
-                window.scrollTo({ top: top, behavior: 'smooth' });
-            }
+    function initAnchorScroll() {
+        document.querySelectorAll('a[href^="#"]').forEach(function (link) {
+            link.addEventListener('click', function (e) {
+                var id = this.getAttribute('href');
+                if (id === '#') return;
+                var target = document.querySelector(id);
+                if (target) {
+                    e.preventDefault();
+                    var navH = nav ? nav.offsetHeight : 0;
+                    var top = target.getBoundingClientRect().top + window.scrollY - navH;
+                    window.scrollTo({ top: top, behavior: 'smooth' });
+                }
+            });
         });
-    });
+    }
 
     // ========== HERO CURSOR GLOW ==========
-    var hero = document.querySelector('.hero');
-    if (hero && !isMobile) {
+    function initHeroGlow() {
+        var hero = document.querySelector('.hero');
+        if (!hero || isMobile) return;
+
         var glowEl = document.createElement('div');
         glowEl.style.cssText = 'position:absolute;inset:0;z-index:1;pointer-events:none;transition:opacity 0.4s;opacity:0;';
         hero.appendChild(glowEl);
@@ -332,7 +761,4 @@
         });
     }
 
-    // ========== INIT ==========
-    updateScrollProgress();
-    updateNav();
 })();

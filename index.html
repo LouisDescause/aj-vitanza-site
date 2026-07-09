@@ -34,21 +34,47 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&family=Geist+Mono:wght@400;500&family=Inter+Tight:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@300;400;500&family=Inter+Tight:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-    <!-- Loader -->
-    <div class="loader" id="loader">
-        <div class="loader-inner">
-            <div class="loader-logo-wrap">
-                <img src="images/swoosh-mark.png" alt="AJ Vitanza" class="loader-logo" width="400" height="400" decoding="async" fetchpriority="high">
+    <!-- Gate Screen -->
+    <div class="gate" id="gate">
+        <div class="gate-inner">
+            <div class="gate-logo">
+                <img src="images/swoosh-mark.png" alt="" width="400" height="400" decoding="async" fetchpriority="high">
             </div>
-            <div class="loader-progress">
-                <div class="loader-progress-fill" id="loaderFill"></div>
-            </div>
+            <button class="gate-btn" id="gateBtn">
+                <span class="gate-btn-text">TAP TO ENTER</span>
+                <span class="gate-btn-ring"></span>
+            </button>
         </div>
+        <div class="gate-hint">Enable sound for full experience</div>
+    </div>
+
+    <!-- Terminal Boot -->
+    <div class="terminal-boot" id="terminalBoot">
+        <div class="terminal-scanlines"></div>
+        <div class="terminal-vignette"></div>
+        <div class="terminal-content" id="terminalContent"></div>
+        <div class="terminal-cursor" id="terminalCursor">█</div>
+    </div>
+
+    <!-- 3D Logo Reveal -->
+    <div class="logo-reveal" id="logoReveal">
+        <div class="logo-reveal-inner">
+            <div class="logo-3d-scene" id="logo3dScene">
+                <div class="logo-3d-object" id="logo3dObject">
+                    <img src="images/swoosh-mark.png" alt="" class="logo-3d-face logo-3d-front" width="400" height="400">
+                    <img src="images/swoosh-mark.png" alt="" class="logo-3d-face logo-3d-back" width="400" height="400">
+                </div>
+            </div>
+            <div class="logo-reveal-text" id="logoRevealText">AJ VITANZA</div>
+            <div class="logo-reveal-sub" id="logoRevealSub">KEEP ME HIGH</div>
+            <div class="logo-reveal-enter" id="logoRevealEnter">CLICK TO ENTER</div>
+        </div>
+        <div class="logo-reveal-particles" id="logoParticles"></div>
     </div>
 
     <!-- Grain overlay -->
@@ -72,7 +98,6 @@
             <a href="#release" data-magnetic><span data-text="New">New</span></a>
             <a href="#music" data-magnetic><span data-text="Music">Music</span></a>
             <a href="#videos" data-magnetic><span data-text="Videos">Videos</span></a>
-            <a href="#press" data-magnetic><span data-text="Press">Press</span></a>
             <a href="#connect" data-magnetic><span data-text="Connect">Connect</span></a>
         </div>
     </nav>
@@ -96,7 +121,7 @@
                 <span>Latest Single — Out Now</span>
                 <span class="hero-eyebrow-line"></span>
             </div>
-            <h1 class="hero-title" id="heroTitle" data-split>AJ VITANZA</h1>
+            <h1 class="hero-title" data-split>AJ VITANZA</h1>
             <p class="hero-sub" data-reveal>KEEP ME HIGH</p>
             <div class="hero-actions" data-reveal>
                 <a href="#release" class="btn btn--primary" data-magnetic data-ripple>
@@ -265,24 +290,6 @@
         </div>
     </section>
 
-    <!-- ==================== PRESS ==================== -->
-    <section class="press" id="press">
-        <div class="section-inner">
-            <span class="label" data-reveal>04. — Press</span>
-            <blockquote class="press-quote" id="pressQuote">
-                <span class="press-quote-mark">&ldquo;</span>
-                Emerging from Buffalo, NY, AJ Vitanza is a pop artist whose storytelling and emotionally resonant songwriting are rapidly gaining traction.
-                <span class="press-quote-mark">&rdquo;</span>
-            </blockquote>
-            <div class="press-sources" data-reveal>
-                <span class="press-src">Hashtag</span>
-                <span class="press-src">AllMusicMagazineUK</span>
-                <span class="press-src">Music of Future</span>
-                <span class="press-src">EQ Music</span>
-            </div>
-        </div>
-    </section>
-
     <!-- ==================== CONNECT ==================== -->
     <section class="connect" id="connect">
         <div class="connect-bg">
@@ -290,7 +297,7 @@
             <div class="connect-orb connect-orb--2"></div>
         </div>
         <div class="section-inner connect-inner">
-            <span class="label" data-reveal>05. — Stay In Touch</span>
+            <span class="label" data-reveal>04. — Stay In Touch</span>
             <h2 class="connect-heading" data-split>Never Miss a Drop</h2>
             <p class="connect-sub" data-reveal>New music, shows & exclusives — straight to you.</p>
             <div class="connect-cta" data-reveal>
