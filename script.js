@@ -246,28 +246,28 @@
     // ========== TERMINAL BOOT ==========
     var terminalBoot = document.getElementById('terminalBoot');
     var terminalContent = document.getElementById('terminalContent');
-    var terminalCursorEl = document.getElementById('terminalCursor');
-
     var BOOT_LINES = [
-        { text: 'AV.SYSTEM // INIT', speed: 18, pause: 220 },
-        { text: 'CODEC.RESOLVE', speed: 14, pause: 130, progress: true },
-        { text: 'AUDIO.FREQ >> 432Hz', speed: 13, pause: 130, progress: true },
-        { text: 'RENDER.ENGINE ONLINE', speed: 12, pause: 160 },
-        { text: 'SIGNAL.LOCK >> KEEP ME HIGH', speed: 10, pause: 260 },
-        { text: 'OUTPUT.READY', speed: 16, pause: 320 },
+        { text: 'BIOS v4.2.1 — AJ VITANZA SYSTEMS', speed: 12, pause: 300, status: null },
+        { text: 'Running hardware diagnostics', speed: 10, pause: 180, status: 'OK' },
+        { text: 'Loading audio subsystem', speed: 10, pause: 200, status: 'OK', progress: true },
+        { text: 'Mounting media: KEEP_ME_HIGH.wav', speed: 9, pause: 160, status: 'READY', progress: true },
+        { text: 'Initializing render pipeline', speed: 10, pause: 140, status: 'OK' },
+        { text: 'Signal acquired — 48kHz / 24bit', speed: 9, pause: 120, status: null },
+        { text: 'All systems nominal', speed: 14, pause: 400, status: null },
     ];
-
-    var SCRAMBLE_CHARS = '!@#$%^&*01█▓░▒╬╠╣╦╩╗╔║═';
 
     function startTerminalBoot() {
         terminalBoot.classList.add('active');
-        terminalCursorEl.style.display = 'block';
-        processBootLine(0);
+        // Print header instantly
+        var header = document.createElement('div');
+        header.className = 'terminal-line terminal-header';
+        header.textContent = '> SYSTEM BOOT';
+        terminalContent.appendChild(header);
+        setTimeout(function () { processBootLine(0); }, 300);
     }
 
     function processBootLine(index) {
         if (index >= BOOT_LINES.length) {
-            terminalCursorEl.style.display = 'none';
             startLogoReveal();
             return;
         }
@@ -277,7 +277,6 @@
         lineEl.className = 'terminal-line';
         terminalContent.appendChild(lineEl);
 
-        // Position cursor after this line
         var charIndex = 0;
         var text = line.text;
 
@@ -289,15 +288,13 @@
                 setTimeout(typeNext, line.speed);
             } else if (line.progress) {
                 animateProgress(lineEl, text, function () {
-                    scrambleOut(lineEl, index, function () {
-                        processBootLine(index + 1);
-                    });
+                    appendStatus(lineEl, line.status);
+                    setTimeout(function () { processBootLine(index + 1); }, 80);
                 });
             } else {
                 setTimeout(function () {
-                    scrambleOut(lineEl, index, function () {
-                        processBootLine(index + 1);
-                    });
+                    appendStatus(lineEl, line.status);
+                    setTimeout(function () { processBootLine(index + 1); }, 80);
                 }, line.pause);
             }
         }
@@ -305,15 +302,24 @@
         typeNext();
     }
 
+    function appendStatus(lineEl, status) {
+        if (!status) return;
+        var tag = document.createElement('span');
+        tag.className = 'terminal-status';
+        tag.textContent = ' [' + status + ']';
+        lineEl.appendChild(tag);
+        playProgressTick();
+    }
+
     function animateProgress(lineEl, prefix, callback) {
         var progress = 0;
-        var barWidth = 20;
+        var barWidth = 16;
 
         function tick() {
             progress += Math.random() * 22 + 8;
             if (progress > 100) progress = 100;
             var filled = Math.round((progress / 100) * barWidth);
-            var bar = ' [' + '█'.repeat(filled) + '░'.repeat(barWidth - filled) + '] ' + Math.round(progress) + '%';
+            var bar = ' [' + '█'.repeat(filled) + '·'.repeat(barWidth - filled) + '] ' + Math.round(progress) + '%';
             lineEl.textContent = prefix + bar;
             playProgressTick();
             if (progress < 100) {
@@ -325,44 +331,11 @@
         tick();
     }
 
-    function scrambleOut(lineEl, lineIndex, callback) {
-        var original = lineEl.textContent;
-        var frames = 0;
-        var maxFrames = 3;
-
-        function scrambleFrame() {
-            if (frames >= maxFrames) {
-                lineEl.classList.add('dimmed');
-                lineEl.textContent = original.replace(/[^\s]/g, function () {
-                    return SCRAMBLE_CHARS[Math.floor(Math.random() * SCRAMBLE_CHARS.length)];
-                });
-                setTimeout(callback, 30);
-                return;
-            }
-            var scrambled = '';
-            for (var i = 0; i < original.length; i++) {
-                if (original[i] === ' ') {
-                    scrambled += ' ';
-                } else if (Math.random() > 0.4) {
-                    scrambled += SCRAMBLE_CHARS[Math.floor(Math.random() * SCRAMBLE_CHARS.length)];
-                } else {
-                    scrambled += original[i];
-                }
-            }
-            lineEl.textContent = scrambled;
-            frames++;
-            setTimeout(scrambleFrame, 20);
-        }
-        scrambleFrame();
-    }
-
     // ========== 3D LOGO REVEAL ==========
     var logoReveal = document.getElementById('logoReveal');
     var logoParticles = document.getElementById('logoParticles');
     var logoRevealText = document.getElementById('logoRevealText');
     var logoRevealSub = document.getElementById('logoRevealSub');
-
-    var logoRevealEnter = document.getElementById('logoRevealEnter');
 
     function startLogoReveal() {
         // Activate logo BEHIND terminal first so there's no flash
@@ -391,16 +364,10 @@
 
                 logoRevealText.classList.add('visible');
                 logoRevealSub.classList.add('visible');
+                stopDrone();
 
-                // Show enter prompt after text appears
-                setTimeout(function () {
-                    logoRevealEnter.classList.add('visible');
-                    logoReveal.classList.add('clickable');
-                    stopDrone();
-
-                    // Click anywhere on logo screen to enter
-                    logoReveal.addEventListener('click', finishIntro, { once: true });
-                }, 800);
+                // Auto-enter after 5s of music playing on the logo screen
+                setTimeout(finishIntro, 5000);
             }, 2000);
         }, 1500);
     }
